@@ -1,15 +1,14 @@
 /* eslint-disable no-console */
 const database = require('../database');
-const storage = require('../storage');
-const Module=require('../moduleInfo');
+const CREATE_SchoolManagementSystem_Table = require('../Createsqltable');
+
+console.log(CREATE_SchoolManagementSystem_Table);
+
 
 database
     .query(
         `
-    DROP TABLE IF EXISTS ${storage.Storage_Table};
-    ${storage.CREATE_TABLE_Storage}
-    DROP TABLE IF EXISTS ${Module.Module_Table};
-    ${Module.CREATE_TABLE_Module}
+    DROP TABLE IF EXISTS ${CREATE_SchoolManagementSystem_Table};
     `,
     )
     .then(() => {
@@ -21,4 +20,4 @@ database
     .finally(() => {
         database.end();
     })
-       
+    module.exports = CREATE_SchoolManagementSystem_Table;
