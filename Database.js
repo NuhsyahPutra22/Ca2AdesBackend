@@ -1,7 +1,7 @@
 require('dotenv').config();
 const pg = require('pg');
 
-const dbConfig = { connectionString: process.env.DATABASE_URL="postgres://gklbzsmj:v19NN9i_bWAn4hIJGa7Uaoi95BbL8jSp@satao.db.elephantsql.com/gklbzsmj",
+const dbConfig = { connectionString: process.env.DATABASE_URL="postgres://apyzcmve:0ojsLdibDcOXeR5tvhpz1VNEi-S0hfEw@john.db.elephantsql.com/apyzcmve",
 ssl: {
   rejectUnauthorized: false
 }
