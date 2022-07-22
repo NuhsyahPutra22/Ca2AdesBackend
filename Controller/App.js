@@ -98,9 +98,9 @@ module.exports = express()
 //Add Course
 .post('/Course', function (req, res) {
     const Courseinfo={
-        currentCoursecode:req.body.currentCoursecode,
-        currentCourseName:req.body.currentCourseName,
-        currentCourseabbrev:req.body.currentCourseabbrev
+        currentCoursecode:req.body.coursecode,
+        currentCourseName:req.body.courseName,
+        currentCourseabbrev:req.body.courseabbrev
     };
     console.log(Courseinfo);
     if (!Courseinfo) {
