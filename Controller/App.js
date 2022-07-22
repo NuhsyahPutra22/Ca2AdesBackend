@@ -99,7 +99,7 @@ module.exports = express()
 .post('/Course', function (req, res) {
     const Courseinfo={
         currentCoursecode:req.body.coursecode,
-        currentCourseName:req.body.courseName,
+        currentCourseName:req.body.coursename,
         currentCourseabbrev:req.body.courseabbrev
     };
     console.log(Courseinfo);
@@ -111,9 +111,9 @@ module.exports = express()
         if (!result) {
           return next(createHttpError(404, `Error`));
         }
-        //console.log(result.row);
+        console.log(result.row);
         res.status(201).send("Course Successfully inserted").end();
-      }); //
+      }); 
     }
   )
 .use((req, res, next) => next(createHttpError(404, `Unknown resource ${req.method} ${req.originalUrl}`)))
