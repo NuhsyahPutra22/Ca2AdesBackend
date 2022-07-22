@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS coursetable (
     
 );
 
-CREATE TABLE IF NOT EXISTS usertable(
+CREATE TABLE IF NOT EXISTS usertable (
     Userid SERIAL primary key,
     UserName VARCHAR not null,
     UserPassword VARCHAR not null,
