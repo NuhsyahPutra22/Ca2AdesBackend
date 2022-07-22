@@ -97,9 +97,9 @@ module.exports = express()
 })
 //Add Course
 .post('/Course', function (req, res,next) {
-    const currentCoursecode=(req.body.currentCoursecode);
-    const currentCourseName=(req.body.currentCourseName);
-    const currentCourseabbrev=(req.body.currentCourseabbrev);
+    const currentCoursecode=(req.body.coursecode);
+    const currentCourseName=(req.body.coursename);
+    const currentCourseabbrev=(req.body.courseabbrev);
     if (!currentCoursecode,currentCourseName,currentCourseabbrev) {
         return next(createHttpError(400, "Please provide data"));
       }
