@@ -9,10 +9,10 @@
    
  
 const CREATE_SchoolManagementSystem_Table = `
-DROP TABLE IF EXISTS Course CASCADE;
-DROP TABLE IF EXISTS User CASCADE;
+DROP TABLE IF EXISTS CourseTable CASCADE;
+DROP TABLE IF EXISTS UserTable CASCADE;
 
-CREATE TABLE IF NOT EXISTS Course (
+CREATE TABLE IF NOT EXISTS CourseTable (
     Courseid SERIAL PRIMARY KEY,
     Coursecode VARCHAR(255) UNIQUE NOT NULL,
     CourseName VARCHAR(255) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS Course (
     
 );
 
-CREATE TABLE IF NOT EXISTS User (
+CREATE TABLE IF NOT EXISTS UserTable(
     Userid SERIAL primary key,
     UserName VARCHAR not null,
     UserPassword VARCHAR not null,
@@ -29,14 +29,9 @@ CREATE TABLE IF NOT EXISTS User (
     UserContactNumber VARCHAR not null,
     UserRole VARCHAR not null,
     Courseid INT UNIQUE,
-    CONSTRAINT fk_Course_id FOREIGN KEY(Courseid) REFERENCES Course(Courseid) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT fk_Course_id FOREIGN KEY(Courseid) REFERENCES CourseTable(Courseid) ON DELETE CASCADE ON UPDATE CASCADE
 
 );
-
-
- 
-
-
 `;
 
 module.exports = CREATE_SchoolManagementSystem_Table;
