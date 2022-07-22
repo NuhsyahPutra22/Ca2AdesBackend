@@ -95,14 +95,15 @@ module.exports = express()
         })
         .catch(next);
 })
+//Add Course
 .post('/Course/',  (req, res, next) => {
-    const { currentModuleName,currentcreditUnit} = req.body;
-    if(!currentModuleName) {
-        if (!currentModuleName) return next(createHttpError(404, ` modulename not found`));
+    const { currentCoursecode,currentCourseName,currentCourseabbrev} = req.body;
+    if(!currentCoursecode) {
+        if (!currentCoursecode) return next(createHttpError(404, ` modulename not found`));
 
     }
-    return addModule(currentModuleName,currentcreditUnit)
-    .then((currentModuleName,currentcreditUnit)=>res.status(201).json({currentModuleName,currentcreditUnit}))
+    return Course.addCourse(currentCoursecode,currentCourseName,currentCourseabbrev)
+    .then((currentCoursecode,currentCourseName,currentCourseabbrev)=>res.status(201).json({currentCoursecode,currentCourseName,currentCourseabbrev}))
     .catch(next);
     
       })
