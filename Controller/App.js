@@ -99,7 +99,7 @@ module.exports = express()
 .post('/Course/',  (req, res, next) => {
     const { currentCoursecode,currentCourseName,currentCourseabbrev} = req.body;
     if(!currentCoursecode) {
-        if (!currentCoursecode) return next(createHttpError(404, ` modulename not found`));
+        if (!currentCoursecode) return next(createHttpError(404, ` Coursecode not found`));
 
     }
     return Course.addCourse(currentCoursecode,currentCourseName,currentCourseabbrev)

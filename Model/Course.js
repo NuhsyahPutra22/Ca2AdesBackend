@@ -19,7 +19,7 @@ module.exports.getCoursebyID = function get(courseid) {
     });
 };
 module.exports.addCourse = function add(currentCoursecode, currentCourseName,currentCourseabbrev) {
-    return query(`INSERT INTO CourseTable (coursecode,coursename,courseabbrev) VALUES($1,$2,$3) RETURNING  *`, [
+    return query(`INSERT INTO coursetable(coursecode,coursename,courseabbrev) VALUES($1,$2,$3) RETURNING  *`, [
         currentCoursecode,
         currentCourseName,
         currentCourseabbrev
