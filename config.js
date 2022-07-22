@@ -1,2 +1,2 @@
 var secret='bvnfdkscd'; //your own secret key
-module.exports=secret;
+module.exports.key=secret;
