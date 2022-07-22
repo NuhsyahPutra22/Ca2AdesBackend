@@ -18,3 +18,17 @@ module.exports.getCoursebyID = function get(courseid) {
         return (result.rows);
     });
 };
+module.exports.addCourse = function add(currentCoursecode, currentCourseName,currentCourseabbrev) {
+    return query(`INSERT INTO CourseTable (coursecode,coursename,courseabbrev) VALUES($1,$2,$3) RETURNING  *`, [
+        currentCoursecode,
+        currentCourseName,
+        currentCourseabbrev
+    ])
+        .then((response) => response.rows[0].currentCoursecode)
+        .catch((error) => {
+            if (error.code === POSTGRES_ERROR_CODE.UNIQUE_CONSTRAINT) {
+                throw createHttpError(400, `Coursecode ${currentCoursecode} already exists`);
+            } else throw error; // unexpected error
+        });
+
+};

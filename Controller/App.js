@@ -70,6 +70,7 @@ module.exports = express()
         })
         .catch(next);
 })
+//Get course by ID
 .get('/Course/:courseid', (req, res, next) => {
     const courseid=(req.params.courseid)
     return Course.getCoursebyID(courseid)
@@ -79,6 +80,17 @@ module.exports = express()
         })
         .catch(next);
 })
+.post('/Course/',  (req, res, next) => {
+    const { currentModuleName,currentcreditUnit} = req.body;
+    if(!currentModuleName) {
+        if (!currentModuleName) return next(createHttpError(404, ` modulename not found`));
+
+    }
+    return addModule(currentModuleName,currentcreditUnit)
+    .then((currentModuleName,currentcreditUnit)=>res.status(201).json({currentModuleName,currentcreditUnit}))
+    .catch(next);
+    
+      })
 
 .use((req, res, next) => next(createHttpError(404, `Unknown resource ${req.method} ${req.originalUrl}`)))
 .use((error, req, res, next) => {
