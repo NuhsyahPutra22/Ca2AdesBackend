@@ -24,42 +24,57 @@ module.exports = express()
         if (!UserPassword) return next(createHttpError(404, ` password not found`));
 
     }
-    return user.LoginUser(UserName,UserPassword)
-    .then(user.LoginUser(UserName,UserPassword,(error,user)=>{
-        if (error) {
-            res.status(500).send();
-            return;
+    return user.LoginUser(UserName,UserPassword,function (err, token, result) {
+        if (!err) {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            delete result[0]['password'];//clear the password in json data, do not send back to client
+            console.log(result);
+            res.json({ success: true, UserData: JSON.stringify(result), token: token, status: 'You are successfully logged in!' });
+            res.send();
+        } else {
+            res.sendStatus(500);
+            res.send(err.statusCode);
         }
-        if (user === null) {
-            res.status(401).send();
-            return;
-        }
-        const payload = {
-            UserName: user.UserName,
-            UserPassword: user.UserPassword
-        };
-        jwt.sign(
-            // (1) payload
-            payload,
-            // (2) Secret key 
-            JWT_SECRET,
-            // (3) Signing Algorithm 
-            { algorithm: "HS256" },
-            // (4) response handle (callback function)
-            (error, token) => {
-                if (error) {
-                    console.log(error);
-                    res.status(401).send();
-                    return;
-                }
-                res.status(200).send({
-                    token: token,
-                    UserName: user.UserName
-                });
-            })
-            
     })
-)})
+    // .then(user.LoginUser(UserName,UserPassword,(error,user)=>{
+    //     if (error) {
+    //         res.status(500).send();
+    //         return;
+    //     }
+    //     if (user === null) {
+    //         res.status(401).send();
+    //         return;
+    //     }
+    //     const payload = {
+    //         UserName: user.UserName,
+    //         UserPassword: user.UserPassword
+    //     };
+    //     jwt.sign(
+    //         // (1) payload
+    //         payload,
+    //         // (2) Secret key 
+    //         JWT_SECRET,
+    //         // (3) Signing Algorithm 
+    //         { algorithm: "HS256" },
+    //         // (4) response handle (callback function)
+    //         (error, token) => {
+    //             if (error) {
+    //                 console.log(error);
+    //                 res.status(401).send();
+    //                 return;
+    //             }
+    //             res.status(200).send({
+    //                 token: token,
+    //                 UserName: user.UserName
+    //             });
+    //         })
+            
+    // }))
+})
+
+
+
 //End Point CourseTable
 //Get all the course
 .get('/Course', (req, res, next) => {
