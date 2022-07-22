@@ -9,11 +9,16 @@
    
  
 const CREATE_SchoolManagementSystem_Table = `
-DROP TABLE IF EXISTS User CASCADE;
 DROP TABLE IF EXISTS Course CASCADE;
-DROP TABLE IF EXISTS Module CASCADE
+DROP TABLE IF EXISTS User CASCADE;
 
-
+CREATE TABLE IF NOT EXISTS Course (
+    Courseid SERIAL PRIMARY KEY,
+    Coursecode VARCHAR(255) UNIQUE NOT NULL,
+    CourseName VARCHAR(255) NOT NULL,
+    Courseabbrev VARCHAR(255) NOT NULL
+    
+);
 
 CREATE TABLE IF NOT EXISTS User (
     Userid SERIAL primary key,
@@ -25,15 +30,10 @@ CREATE TABLE IF NOT EXISTS User (
     UserRole VARCHAR not null,
     Courseid INT UNIQUE,
     CONSTRAINT fk_Course_id FOREIGN KEY(Courseid) REFERENCES Course(Courseid) ON DELETE CASCADE ON UPDATE CASCADE
+
 );
 
-CREATE TABLE IF NOT EXISTS Course (
-    Courseid SERIAL PRIMARY KEY,
-    Coursecode VARCHAR(255) UNIQUE NOT NULL,
-    CourseName VARCHAR(255) NOT NULL,
-    Courseabbrev VARCHAR(255) NOT NULL
-    
-);
+
  
 
 
