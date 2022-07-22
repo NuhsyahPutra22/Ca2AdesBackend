@@ -99,7 +99,7 @@ module.exports = express()
 .post('/Course', function (req, res) {
     const Courseinfo={
         currentCoursecode:req.body.coursecode,
-        currentCourseName:req.body.coursename,
+        currentCoursename:req.body.coursename,
         currentCourseabbrev:req.body.courseabbrev
     };
     console.log(Courseinfo);

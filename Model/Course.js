@@ -18,10 +18,10 @@ module.exports.getCoursebyID = function get(courseid) {
         return (result.rows);
     });
 };
-module.exports.addCourse = function add(currentCoursecode, currentCourseName,currentCourseabbrev) {
+module.exports.addCourse = function add(currentCoursecode, currentCoursename,currentCourseabbrev) {
     return query(`INSERT INTO coursetable(coursecode,coursename,courseabbrev) VALUES($1,$2,$3) RETURNING  *`, [
         currentCoursecode,
-        currentCourseName,
+        currentCoursename,
         currentCourseabbrev
     ])
         .then((response) => response.rows[0].currentCoursecode)
