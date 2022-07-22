@@ -96,17 +96,19 @@ module.exports = express()
         .catch(next);
 })
 //Add Course
-.post('/Course/',  (req, res, next) => {
-    const { currentCoursecode,currentCourseName,currentCourseabbrev} = req.body;
-    if(!currentCoursecode) {
-        if (!currentCoursecode) return next(createHttpError(404, ` Coursecode not found`));
-
-    }
-    return Course.addCourse(currentCoursecode,currentCourseName,currentCourseabbrev)
-    .then((currentCoursecode,currentCourseName,currentCourseabbrev)=>res.status(201).json({currentCoursecode,currentCourseName,currentCourseabbrev}))
-    .catch(next);
+.post('/Course/', function (req, res) {
+    const { currentCoursecode,currentCourseName,currentCourseabbrev} = req.body;    
+    Course.addCourse(currentCoursecode, currentCourseName, currentCourseabbrev, function (err, result) {
+        if (!err) {
+            console.log(result);
+            res.status(201).json({ "courseid": result.insertId });
+        } else {
+            res.status(500).send("{'Messsage':'Internal Server Error'}");
+        }
     
-      })
+    })
+})
+
 
 .use((req, res, next) => next(createHttpError(404, `Unknown resource ${req.method} ${req.originalUrl}`)))
 .use((error, req, res, next) => {
