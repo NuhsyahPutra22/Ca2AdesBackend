@@ -12,7 +12,7 @@ const CREATE_SchoolManagementSystem_Table = `
 DROP TABLE IF EXISTS coursetable CASCADE;
 DROP TABLE IF EXISTS usertable CASCADE;
 
-CREATE TABLE  coursetable (
+CREATE TABLE IF NOT EXISTS coursetable (
     Courseid SERIAL PRIMARY KEY,
     Coursecode VARCHAR(255) UNIQUE NOT NULL,
     CourseName VARCHAR(255) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE  coursetable (
     
 );
 
-CREATE TABLE usertable (
+CREATE TABLE IF NOT EXISTS usertable (
     Userid SERIAL primary key,
     UserName VARCHAR not null,
     UserPassword VARCHAR not null,

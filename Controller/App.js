@@ -97,16 +97,13 @@ module.exports = express()
 })
 //Add Course
 .post('/Course', function (req, res,next) {
-    const Courseinfo={
-        currentCoursecode:req.body.coursecode,
-        currentCourseName:req.body.coursename,
-        currentCourseabbrev:req.body.courseabbrev
-    };
-    console.log(Courseinfo);
-    if (!Courseinfo) {
+    const currentCoursecode=(req.body.currentCoursecode);
+    const currentCourseName=(req.body.currentCourseName);
+    const currentCourseabbrev=(req.body.currentCourseabbrev);
+    if (!currentCoursecode) {
         return next(createHttpError(400, "Please provide data"));
       }
-      return Course.addCourse(Courseinfo).then((result) => {
+      return Course.addCourse(currentCoursecode).then((result) => {
         //console.log(result.rows);
         if (!result) {
           return next(createHttpError(404, `Error`));
