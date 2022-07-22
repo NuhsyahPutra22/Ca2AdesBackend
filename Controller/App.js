@@ -96,20 +96,26 @@ module.exports = express()
         .catch(next);
 })
 //Add Course
-.post('/Course/', function (req, res) {
-    const { currentCoursecode,currentCourseName,currentCourseabbrev} = req.body;    
-    Course.addCourse(currentCoursecode, currentCourseName, currentCourseabbrev, function (err, result) {
-        if (!err) {
-            console.log(result);
-            res.status(201).json({ "courseid": result.insertId });
-        } else {
-            res.status(500).send("{'Messsage':'Internal Server Error'}");
+.post('/Course', function (req, res) {
+    const Courseinfo={
+        currentCoursecode:req.body.currentCoursecode,
+        currentCourseName:req.body.currentCourseName,
+        currentCourseabbrev:req.body.currentCourseabbrev
+    };
+    console.log(Courseinfo);
+    if (!Courseinfo) {
+        return next(createHttpError(400, "Please provide data"));
+      }
+      return Course.addCourse(Courseinfo).then((result) => {
+        console.log(result.rows);
+        if (!result) {
+          return next(createHttpError(404, `Error`));
         }
-    
-    })
-})
-
-
+        //console.log(result.row);
+        res.status(201).send("Course Successfully inserted").end();
+      }); //
+    }
+  )
 .use((req, res, next) => next(createHttpError(404, `Unknown resource ${req.method} ${req.originalUrl}`)))
 .use((error, req, res, next) => {
     console.error(error);
