@@ -3,7 +3,8 @@ const cors = require('cors');
 const bodyParser=require('body-parser');
 const createHttpError = require('http-errors');
 var isLoggedInMiddleWare=require('../auth/verifytoken');
-const{login2}=require('../Model/user');
+const user=require('../Model/user');
+const Course=require('../Model/Course');
 const { query } = require('../database');
 
 module.exports = express()
@@ -20,8 +21,8 @@ module.exports = express()
         if (!UserPassword) return next(createHttpError(404, ` password not found`));
 
     }
-    return login2(UserName,UserPassword)
-    .then(login2(UserName,UserPassword,(error,user)=>{
+    return user.LoginUser(UserName,UserPassword)
+    .then(user.LoginUser(UserName,UserPassword,(error,user)=>{
         if (error) {
             res.status(500).send();
             return;

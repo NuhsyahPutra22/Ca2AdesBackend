@@ -11,6 +11,7 @@
 const CREATE_SchoolManagementSystem_Table = `
 DROP TABLE IF EXISTS User CASCADE;
 DROP TABLE IF EXISTS Course CASCADE;
+DROP TABLE IF EXISTS Module CASCADE
 
 
 
@@ -33,6 +34,7 @@ CREATE TABLE IF NOT EXISTS Course (
     Courseabbrev VARCHAR(255) NOT NULL
     
 );
+ 
 
 
 `;

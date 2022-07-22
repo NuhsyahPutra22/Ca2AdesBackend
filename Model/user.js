@@ -3,7 +3,7 @@ const { query, POSTGRES_ERROR_CODE } = require('./database');
 
 
 
-module.exports.login2=function get(userName,UserPassword){
+module.exports.LoginUser=function get(userName,UserPassword){
     return query(`SELECT * FROM user WHERE userName = ($1) and UserPassword = ($2)`, [
         userName,UserPassword ]) .then((result) => {
             if  (!result.rows.length) return null;
