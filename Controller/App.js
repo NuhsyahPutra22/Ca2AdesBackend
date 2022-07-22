@@ -103,7 +103,7 @@ module.exports = express()
     if (!currentCoursecode) {
         return next(createHttpError(400, "Please provide data"));
       }
-      return Course.addCourse(currentCoursecode).then((result) => {
+      return Course.addCourse(currentCoursecode,currentCourseName,currentCourseabbrev).then((result) => {
         //console.log(result.rows);
         if (!result) {
           return next(createHttpError(404, `Error`));
