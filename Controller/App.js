@@ -71,7 +71,8 @@ module.exports = express()
         .catch(next);
 })
 .get('/Course/:courseid', (req, res, next) => {
-    return Course.getCoursebyID()
+    const courseid=(req.params.courseid)
+    return Course.getCoursebyID(courseid)
         .then((result) => {
             if (!result) return next(createHttpError(404, `Course Information ${result} not found`));
             return res.json(result).end();
