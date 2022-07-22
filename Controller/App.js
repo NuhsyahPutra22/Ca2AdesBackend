@@ -14,9 +14,9 @@ module.exports = express()
     .use(bodyParser.urlencoded({ extended: false }))
 
 
-    //EndPoint User
+    //EndPoint UserTable
 
-
+//LoginUser
 .post('/login',(req,res,next)=>{
     const UserName = req.body.UserName;
     const UserPassword = req.body.UserPassword;
@@ -57,8 +57,20 @@ module.exports = express()
                     UserName: user.UserName
                 });
             })
+            
+            .get('/Course', (req, res, next) => {
+                return Course.getAllCourse()
+                    .then((result) => {
+                        if (!result) return next(createHttpError(404, `Course Information ${result} not found`));
+                        return res.json(result).end();
+                    })
+                    .catch(next);
+            })
+                
     })
+    
 )})
+
 
 
 
