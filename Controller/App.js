@@ -96,10 +96,10 @@ module.exports = express()
         .catch(next);
 })
 //Add Course
-.post('/Course', function (req, res) {
+.post('/Course', function (req, res,next) {
     const Courseinfo={
         currentCoursecode:req.body.coursecode,
-        currentCoursename:req.body.coursename,
+        currentCourseName:req.body.coursename,
         currentCourseabbrev:req.body.courseabbrev
     };
     console.log(Courseinfo);
@@ -107,11 +107,11 @@ module.exports = express()
         return next(createHttpError(400, "Please provide data"));
       }
       return Course.addCourse(Courseinfo).then((result) => {
-        console.log(result.rows);
+        //console.log(result.rows);
         if (!result) {
           return next(createHttpError(404, `Error`));
         }
-        console.log(result.row);
+        //console.log(result.row);
         res.status(201).send("Course Successfully inserted").end();
       }); 
     }
