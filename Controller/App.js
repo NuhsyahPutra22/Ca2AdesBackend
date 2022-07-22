@@ -60,6 +60,8 @@ module.exports = express()
             
     })
 )})
+//End Point CourseTable
+//Get all the course
 .get('/Course', (req, res, next) => {
     return Course.getAllCourse()
         .then((result) => {
@@ -68,7 +70,14 @@ module.exports = express()
         })
         .catch(next);
 })
-
+.get('/Course/:courseid', (req, res, next) => {
+    return Course.getCoursebyID()
+        .then((result) => {
+            if (!result) return next(createHttpError(404, `Course Information ${result} not found`));
+            return res.json(result).end();
+        })
+        .catch(next);
+})
 
 .use((req, res, next) => next(createHttpError(404, `Unknown resource ${req.method} ${req.originalUrl}`)))
 .use((error, req, res, next) => {
