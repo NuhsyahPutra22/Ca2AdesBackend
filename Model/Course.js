@@ -9,9 +9,9 @@ module.exports.getAllCourse = function get() {
         return (result.rows);
     });
 };
-module.exports.getCoursebyID = function get(Courseid) {
-    console.log(Courseid);
-    return query(`SELECT * FROM CourseTable where Courseid=$1`,[Courseid])
+module.exports.getCoursebyID = function get(courseid) {
+    console.log(courseid);
+    return query(`SELECT * FROM CourseTable where courseid=$1`,[courseid])
     .then((result) => {
         if  (!result.rows.length) return null;
         console.log(result.rows);
