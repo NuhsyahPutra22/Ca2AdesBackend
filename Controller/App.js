@@ -102,17 +102,13 @@ module.exports = express()
     const currentCourseabbrev=req.body.courseabbrev;
     if (!currentCoursecode) {
         return next(createHttpError(400, "Please provide data"));
-      }
-      return Course.addCourse(currentCoursecode,currentCourseName,currentCourseabbrev).then((result) => {
-        //console.log(result.rows);
-        if (!result) {
-          return next(createHttpError(404, `Error`));
-        }
-        //console.log(result.row);
-        res.status(201).send("Course Successfully inserted").end();
-      }); 
     }
-  )
+    return Course.addCourse(currentCoursecode,currentCourseName,currentCourseabbrev)
+    .then((currentCoursecode,currentCourseName,currentCourseabbrev)=>res.status(201).json({currentCoursecode,currentCourseName,currentCourseabbrev}))
+    .catch(next);
+    
+      })
+     
 .use((req, res, next) => next(createHttpError(404, `Unknown resource ${req.method} ${req.originalUrl}`)))
 .use((error, req, res, next) => {
     console.error(error);
