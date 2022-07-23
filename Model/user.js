@@ -49,14 +49,13 @@ module.exports.GetUserbyID = function get(userid) {
     });
 };
 
-module.exports.AddUser = function add(currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentUserRole,currentCourseid) {
-    return query(`Insert into usertable(username,userpassword,useremail,useraddress,usercontactnumber,userrole,courseid) values ($1,$2,$3,$4,$5,$6,$7) RETURNING *`, [
+module.exports.AddUser = function add(currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentCourseid) {
+    return query(`Insert into usertable(username,userpassword,useremail,useraddress,usercontactnumber,userrole,courseid) values ($1,$2,$3,$4,$5,'Student',$6) RETURNING *`, [
         currentUserName,
         currentUserPassword,
         currentUserEmail,
         currentUserAddress,
         currentUserContactNumber,
-        currentUserRole,
         currentCourseid
     ])
     .then((response) => response.rows[0].currentUserEmail)
@@ -64,6 +63,16 @@ module.exports.AddUser = function add(currentUserName,currentUserPassword,curren
         if (error.code === POSTGRES_ERROR_CODE.UNIQUE_CONSTRAINT) {
             throw createHttpError(400, `Coursecode ${currentUserEmail} already exists`);
         } else throw error; // unexpected error
+    });
+};
+
+//update all user info by userid
+module.exports.UpdateUserinfo=function add(userid,username,userpassword,useremail,useraddress,usercontactnumber,courseid) {
+    return query(`UPDATE usertable SET username= $2,userpassword= $3,useremail= $4,useraddress= $5,usercontactnumber= $6,userrole=$8,courseid= $7 where userid=$1  RETURNING *` , [userid,username,userpassword,useremail,useraddress,usercontactnumber,courseid])
+    .then((result) => {
+        if  (!result.rows.length) return null;
+        console.log(result.rows);
+        return (result.rows);
     });
 };
  
