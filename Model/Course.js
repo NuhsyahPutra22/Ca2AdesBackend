@@ -43,3 +43,13 @@ module.exports.UpdateCourseinfo=function add(courseid,currentCoursecode,currentC
         return (result.rows);
     });
 };
+
+//To delete Courseinfobyid
+
+module.exports.deleteCourseinfo= function get(courseid) {
+    return query(`DELETE FROM coursetable where courseid= $1`,[courseid]).then((result) => {
+        if (!result.rows.length) return null;
+        return result;
+    });
+
+};

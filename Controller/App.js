@@ -124,6 +124,14 @@ module.exports = express()
     })
     .catch(next);
 })
+//To delete Courseinfo by id 
+.delete('/Course/:courseid',(req,res,next)=>{
+    const courseid=parseInt(req.params.courseid);
+    console.log(courseid);       
+    return Course.deleteCourseinfo(courseid)
+    .then((result) => res.status(200).send("Successfully deleted CourseInfo").end())
+        .catch(next);
+})
     
      
 .use((req, res, next) => next(createHttpError(404, `Unknown resource ${req.method} ${req.originalUrl}`)))
