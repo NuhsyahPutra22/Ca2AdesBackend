@@ -29,10 +29,11 @@ CREATE TABLE IF NOT EXISTS usertable (
     UserAddress VARCHAR not null,
     UserContactNumber VARCHAR not null,
     UserRole VARCHAR not null,
-    Courseid INT UNIQUE,
+    Courseid INT not null,
     CONSTRAINT fk_Course_id FOREIGN KEY(Courseid) REFERENCES coursetable(Courseid) ON DELETE CASCADE ON UPDATE CASCADE
 
 );
+
 `;
 
 module.exports = CREATE_SchoolManagementSystem_Table;
