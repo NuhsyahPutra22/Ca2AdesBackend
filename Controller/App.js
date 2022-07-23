@@ -109,23 +109,28 @@ module.exports = express()
     
       })
       //Update a Course information
-     .put('/Course/:courseid/:coursecode/:coursename:/:courseabbrev', (req,res,next)=>{
-        const  courseid =parseInt(req.params.id); 
-    const coursecode=parseInt(req.params.coursecode);
-    const coursename=parseInt(req.params.coursename);
-    const courseabbrev=parseInt(req.params.courseabbrev);
-
-    console.log(coursecode);
-    console.log(coursename);
-    console.log(courseabbrev);
-     return UpdateCourseinfo(courseid,coursecode,coursename,courseabbrev)
-     .then((result) => {
-        if (!result) return next(createHttpError(404, ` courseinfo ${result} not updated`));
-        console.log(result.rows);
-        return res.json(result.rows).end();
-    })
-    .catch(next);
-})
+     .put('/Course/:courseid/:coursecode/:coursename:/:courseabbrev', 
+     (req, res, next) => {
+        const courseinfo = {
+          courseid: req.params.courseid,
+          coursecode: req.params.coursecode,
+          coursename: req.params.coursename,
+          courseabbrev: req.params.courseabbrev,
+        };
+        console.log(courseinfo);
+        if (!courseinfo) {
+          return next(createHttpError(400, "Please provide data"));
+        }
+        return Course.UpdateCourseinfo(courseinfo).then((result) => {
+          console.log(result.rows);
+          if (!result) {
+            return next(createHttpError(404, `Error`));
+          }
+          //console.log(result.row);
+          res.status(201).send("Course Successfully updated").end();
+        }); //
+      }
+    )
      
 .use((req, res, next) => next(createHttpError(404, `Unknown resource ${req.method} ${req.originalUrl}`)))
 .use((error, req, res, next) => {
