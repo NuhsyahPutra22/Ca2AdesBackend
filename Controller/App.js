@@ -100,7 +100,7 @@ module.exports = express()
     const currentCoursecode=req.body.coursecode;
     const currentCourseName=req.body.coursename;
     const currentCourseabbrev=req.body.courseabbrev;
-    if (!currentCoursecode,currentCourseName,currentCourseabbrev) {
+    if (!currentCoursecode) {
         return next(createHttpError(400, "Please provide data"));
       }
       return Course.addCourse(currentCoursecode,currentCourseName,currentCourseabbrev).then((result) => {
