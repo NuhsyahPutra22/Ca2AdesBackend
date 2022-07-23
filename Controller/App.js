@@ -93,7 +93,23 @@ module.exports = express()
         .catch(next);
 })
 
-
+//add user
+.post('/addnewuser', function (req, res,next) {
+    const currentUserName=req.body.UserName;
+    const currentUserPassword=req.body.UserPassword;
+    const currentUserEmail=req.body.UserEmail;
+    const currentUserAddress=req.body.UserAddress;
+    const currentUserContactNumber=req.body.UserContactNumber;
+    const currentUserRole=req.body.UserRole;
+    const currentCourseid=req.body.Courseid;
+    if (!currentUserName) {
+        return next(createHttpError(400, "Please provide data"));
+    }
+    return user.AddUser(currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentUserRole,currentCourseid)
+    .then((currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentUserRole,currentCourseid)=>res.status(201).json({currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentUserRole,currentCourseid}))
+    .catch(next);
+    
+      })
 
 
 //End Point CourseTable

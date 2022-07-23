@@ -48,4 +48,23 @@ module.exports.GetUserbyID = function get(userid) {
         return (result.rows);
     });
 };
+
+module.exports.AddUser = function add(currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentUserRole,currentCourseid) {
+    return query(`Insert into Usertable(UserName,UserPassword,UserEmail,UserAddress,UserContactNumber,UserRole,Courseid) 
+    values ($1,$2,$3,$4,$5,$6,$7);`, [
+        currentUserName,
+        currentUserPassword,
+        currentUserEmail,
+        currentUserAddress,
+        currentUserContactNumber,
+        currentUserRole,
+        currentCourseid
+    ])
+        .then((response) => response.rows[0].currentUserName)
+        .catch((error) => {
+            if (error.code === POSTGRES_ERROR_CODE.UNIQUE_CONSTRAINT) {
+                throw createHttpError(400, `User ${currentUserName} already exists`);
+            } else throw error; // unexpected error
+        });
+};
  
