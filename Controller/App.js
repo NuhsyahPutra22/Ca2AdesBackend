@@ -112,10 +112,10 @@ module.exports = express()
      .put('/Course/:courseid/', 
      (req, res, next) => {
         const courseinfo = {
-          courseid: req.params.courseid,
-          coursecode: req.params.coursecode,
-          coursename: req.params.coursename,
-          courseabbrev: req.params.courseabbrev,
+          courseid:req.params.courseid,
+          coursecode: req.body.coursecode,
+          coursename: req.body.coursename,
+          courseabbrev: req.body.courseabbrev,
         };
         console.log(courseinfo);
         if (!courseinfo) {
