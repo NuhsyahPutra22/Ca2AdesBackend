@@ -34,9 +34,9 @@ module.exports.AddCourse = function add(currentCoursecode, currentCourseName,cur
             } else throw error; // unexpected error
         });
 };
-//To update the CreditUnit of the Module
-module.exports.UpdateCourseinfo=function add(courseid,coursecode,coursename,courseabbrev) {
-    return query(`UPDATE coursetable SET coursecode = $2,coursename = $3,courseabbrev = $4 where courseid = $1  RETURNING *` , [courseid,coursecode,coursename,courseabbrev]).then((result) => {
+//To update the all the coursetable info
+module.exports.UpdateCourseinfo=function add(courseid,currentCoursecode,currentCourseName,currentCourseabbrev) {
+    return query(`UPDATE coursetable SET coursecode = $2,coursename = $3,courseabbrev = $4 where courseid = $1  RETURNING *` , [courseid,currentCoursecode,currentCourseName,currentCourseabbrev]).then((result) => {
         if (!result.rows.length) return null;
         return result;
     });
