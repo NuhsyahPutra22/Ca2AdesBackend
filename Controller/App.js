@@ -72,7 +72,7 @@ module.exports = express()
 
 })
 //get all user 
-.get('/user', (req, res, next) => {
+.get('/user',isLoggedInMiddleWare, (req, res, next) => {
     return user.GetAllUser()
         .then((result) => {
             if (!result) return next(createHttpError(404, `User Information ${result} not found`));
@@ -82,7 +82,7 @@ module.exports = express()
 })
 
 //get userbyid
-.get('/user/:userid', (req, res, next) => {
+.get('/user/:userid',isLoggedInMiddleWare, (req, res, next) => {
     const userid=(req.params.userid)
     return user.GetUserbyID(userid)
         .then((result) => {
@@ -93,7 +93,7 @@ module.exports = express()
 })
 
 //add user
-.post('/user', function (req, res,next) {
+.post('/user',isLoggedInMiddleWare, function (req, res,next) {
     const currentUserName=req.body.username;
     const currentUserPassword=req.body.userpassword;
     const currentUserEmail=req.body.useremail;
@@ -111,7 +111,7 @@ module.exports = express()
 
 
 //update userinfo by userid
-.put('/user/:userid', (req,res,next)=>{
+.put('/user/:userid',isLoggedInMiddleWare, (req,res,next)=>{
     const  userid =parseInt(req.params.userid); 
     const username=req.body.username;
     const userpassword=req.body.userpassword;
@@ -131,7 +131,7 @@ console.log(userid,username,userpassword,useremail,useraddress,usercontactnumber
 })
 
 //delete user
-.delete('/user/:userid',(req,res,next)=>{
+.delete('/user/:userid',isLoggedInMiddleWare,(req,res,next)=>{
     const userid=parseInt(req.params.userid);
     console.log(userid);       
     return user.DeleteUser(userid)
@@ -140,7 +140,7 @@ console.log(userid,username,userpassword,useremail,useraddress,usercontactnumber
 })
 
 //search
-.get('/searchuser/:username',(req,res,next)=>{
+.get('/searchuser/:username',isLoggedInMiddleWare,(req,res,next)=>{
     const username=(req.params.username)
     return user.searchuser(username)
     .then((result) => {
