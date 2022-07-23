@@ -95,13 +95,13 @@ module.exports = express()
 
 //add user
 .post('/addnewuser', function (req, res,next) {
-    const currentUserName=req.body.UserName;
-    const currentUserPassword=req.body.UserPassword;
-    const currentUserEmail=req.body.UserEmail;
-    const currentUserAddress=req.body.UserAddress;
-    const currentUserContactNumber=req.body.UserContactNumber;
-    const currentUserRole=req.body.UserRole;
-    const currentCourseid=req.body.Courseid;
+    const currentUserName=req.body.username;
+    const currentUserPassword=req.body.userpassword;
+    const currentUserEmail=req.body.useremail;
+    const currentUserAddress=req.body.useraddress;
+    const currentUserContactNumber=req.body.usercontactnumber;
+    const currentUserRole=req.body.userrole;
+    const currentCourseid=req.body.courseid;
     if (!currentUserName) {
         return next(createHttpError(400, "Please provide data"));
     }

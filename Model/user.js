@@ -50,8 +50,7 @@ module.exports.GetUserbyID = function get(userid) {
 };
 
 module.exports.AddUser = function add(currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentUserRole,currentCourseid) {
-    return query(`Insert into Usertable(UserName,UserPassword,UserEmail,UserAddress,UserContactNumber,UserRole,Courseid) 
-    values ($1,$2,$3,$4,$5,$6,$7);`, [
+    return query(`Insert into usertable(username,userpassword,useremail,useraddress,usercontactnumber,userrole,courseid) values ($1,$2,$3,$4,$5,$6,$7) RETURNING *`, [
         currentUserName,
         currentUserPassword,
         currentUserEmail,
