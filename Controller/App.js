@@ -134,7 +134,7 @@ module.exports = express()
 })
 //To get coursename by coursecode
 .get('/Course/:coursecode',(req,res,next)=>{
-    const currentCoursecode=(req.params.coursecode)
+    const currentCoursecode=parseInt(req.params.coursecode)
     return Course.GetCoursenamebyCoursecode(currentCoursecode)
     .then((result) => {
         if (!result) return next(createHttpError(404, ` Coursename ${result} not found`));
