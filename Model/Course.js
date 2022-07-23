@@ -36,8 +36,10 @@ module.exports.AddCourse = function add(currentCoursecode, currentCourseName,cur
 };
 //To update the all the coursetable info
 module.exports.UpdateCourseinfo=function add(courseid,currentCoursecode,currentCourseName,currentCourseabbrev) {
-    return query(`UPDATE coursetable SET coursecode = $2,coursename = $3,courseabbrev = $4 where courseid = $1  RETURNING *` , [courseid,currentCoursecode,currentCourseName,currentCourseabbrev]).then((result) => {
-        if (!result.rows.length) return null;
-        return result;
+    return query(`UPDATE coursetable SET coursecode = $2,coursename = $3,courseabbrev = $4 where courseid = $1  RETURNING *` , [courseid,currentCoursecode,currentCourseName,currentCourseabbrev])
+    .then((result) => {
+        if  (!result.rows.length) return null;
+        console.log(result.rows);
+        return (result.rows);
     });
 };
