@@ -78,7 +78,7 @@ module.exports = express()
 //End Point CourseTable
 //Get all the course
 .get('/Course', (req, res, next) => {
-    return Course.getAllCourse()
+    return Course.GetAllCourse()
         .then((result) => {
             if (!result) return next(createHttpError(404, `Course Information ${result} not found`));
             return res.json(result).end();
@@ -88,7 +88,7 @@ module.exports = express()
 //Get course by ID
 .get('/Course/:courseid', (req, res, next) => {
     const courseid=(req.params.courseid)
-    return Course.getCoursebyID(courseid)
+    return Course.GetCoursebyID(courseid)
         .then((result) => {
             if (!result) return next(createHttpError(404, `Course Information ${result} not found`));
             return res.json(result).end();
@@ -103,11 +103,29 @@ module.exports = express()
     if (!currentCoursecode) {
         return next(createHttpError(400, "Please provide data"));
     }
-    return Course.addCourse(currentCoursecode,currentCourseName,currentCourseabbrev)
+    return Course.AddCourse(currentCoursecode,currentCourseName,currentCourseabbrev)
     .then((currentCoursecode,currentCourseName,currentCourseabbrev)=>res.status(201).json({currentCoursecode,currentCourseName,currentCourseabbrev}))
     .catch(next);
     
       })
+      //Update a Course information
+     .put('/Course/:courseid/:coursecode/:coursename:/:courseabbrev', (req,res,next)=>{
+        const  courseid =parseInt(req.params.id); 
+    const coursecode=parseInt(req.params.coursecode);
+    const coursename=parseInt(req.params.coursename);
+    const courseabbrev=parseInt(req.params.courseabbrev);
+
+    console.log(coursecode);
+    console.log(coursename);
+    console.log(courseabbrev);
+     return UpdateCourseinfo(courseid,coursecode,coursename,courseabbrev)
+     .then((result) => {
+        if (!result) return next(createHttpError(404, ` courseinfo ${result} not updated`));
+        console.log(result.rows);
+        return res.json(result.rows).end();
+    })
+    .catch(next);
+})
      
 .use((req, res, next) => next(createHttpError(404, `Unknown resource ${req.method} ${req.originalUrl}`)))
 .use((error, req, res, next) => {
