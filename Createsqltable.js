@@ -27,9 +27,27 @@ create table usertable (
     UserContactNumber VARCHAR not null,
     UserRole VARCHAR not null,
     Courseid INT not null,
-    CONSTRAINT fk_Course_id FOREIGN KEY(Courseid) REFERENCES coursetable(Courseid) ON DELETE CASCADE ON UPDATE CASCADE
+    gpacalculation JSON Default '[]'::JSON,
+    CONSTRAINT fk_Course_id FOREIGN KEY(courseid) REFERENCES coursetable(Courseid) ON DELETE CASCADE ON UPDATE CASCADE
 
 );
+
+create table moduletable(
+    moduleid SERIAL primary key,
+    modulecode VARCHAR not null,
+    modulename VARCHAR not null,
+    moduledetail VARCHAR not null,
+    courseid INT not null,
+    semesterid INT not null,
+    CONSTRAINT fk_Courseid FOREIGN KEY(courseid) REFERENCES coursetable(Courseid) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_semester_id FOREIGN KEY(semesterid) REFERENCES semestertable(semesterid) ON DELETE CASCADE ON UPDATE CASCADE
+)
+
+create table semestertable(
+    semesterid SERIAL primary key,
+    semestername varchar not null,
+    yearforsemester   varchar not null
+)
 
 ALTER TABLE usertable
 DROP CONSTRAINT fk_Course_id;

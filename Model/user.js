@@ -14,6 +14,7 @@ const user_table_sql = `
         UserContactNumber VARCHAR not null,
         UserRole VARCHAR not null,
         Courseid INT not null,
+        gpacalculation JSON Default '[]'::JSON,
         CONSTRAINT fk_Course_id FOREIGN KEY(Courseid) REFERENCES coursetable(Courseid) ON DELETE CASCADE ON UPDATE CASCADE
         
     );
