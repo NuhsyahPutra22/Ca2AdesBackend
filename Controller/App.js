@@ -6,7 +6,8 @@ var isLoggedInMiddleWare=require('../auth/verifytoken');
 const user=require('../Model/user');
 const Course=require('../Model/Course');
 const { query } = require('../database');
-
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = require("../config");
 module.exports = express()
     .use(cors())
     .use(express.json())
@@ -16,61 +17,59 @@ module.exports = express()
 
     //EndPoint UserTable
 
+ 
+
+
 //LoginUser
 .post('/login',(req,res,next)=>{
-    const UserName = req.body.UserName;
-    const UserPassword = req.body.UserPassword;
-    if(!UserPassword) {
-        if (!UserPassword) return next(createHttpError(404, ` password not found`));
+    const username = req.body.username;
+    const userpassword = req.body.userpassword;
+    if(!userpassword) {
+        if (!userpassword) return next(createHttpError(404, ` password not found`));
 
     }
-    return user.LoginUser(UserName,UserPassword,function (err, token, result) {
-        if (!err) {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            delete result[0]['password'];//clear the password in json data, do not send back to client
-            console.log(result);
-            res.json({ success: true, UserData: JSON.stringify(result), token: token, status: 'You are successfully logged in!' });
-            res.send();
+    return user.LoginUser(username,userpassword)
+    .then((result) => {
+        if (result === null) {
+          // reads from response body
+          res.status(401).send("Invalid login credentials").end();
         } else {
-            res.sendStatus(500);
-            res.send(err.statusCode);
+          console.log(result);
+
+          let payload = {
+            username:result.username,
+            userrole:result.userrole
+          };
+
+          let tokenConfig = {
+            expiresIn: 86400,
+            algorithm: "HS256",
+          };
+
+          jwt.sign(payload, JWT_SECRET, tokenConfig, (error, token) => {
+            if (error) {
+              console.log(error);
+
+              let errMsg = {
+                message: "An error occured...",
+              };
+
+              res.status(401).type("json").send(errMsg.message).end();
+            } else {
+              res.status(200).send({
+                token: token,
+                username:result.username,
+            userrole:result.userrole
+              });
+            }
+          });
         }
-    })
-    // .then(user.LoginUser(UserName,UserPassword,(error,user)=>{
-    //     if (error) {
-    //         res.status(500).send();
-    //         return;
-    //     }
-    //     if (user === null) {
-    //         res.status(401).send();
-    //         return;
-    //     }
-    //     const payload = {
-    //         UserName: user.UserName,
-    //         UserPassword: user.UserPassword
-    //     };
-    //     jwt.sign(
-    //         // (1) payload
-    //         payload,
-    //         // (2) Secret key 
-    //         JWT_SECRET,
-    //         // (3) Signing Algorithm 
-    //         { algorithm: "HS256" },
-    //         // (4) response handle (callback function)
-    //         (error, token) => {
-    //             if (error) {
-    //                 console.log(error);
-    //                 res.status(401).send();
-    //                 return;
-    //             }
-    //             res.status(200).send({
-    //                 token: token,
-    //                 UserName: user.UserName
-    //             });
-    //         })
-            
-    // }))
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(500).send(error);
+      });
+
 })
 //get all user 
 .get('/user', (req, res, next) => {
