@@ -100,16 +100,41 @@ module.exports = express()
     const currentUserEmail=req.body.useremail;
     const currentUserAddress=req.body.useraddress;
     const currentUserContactNumber=req.body.usercontactnumber;
-    const currentUserRole=req.body.userrole;
     const currentCourseid=req.body.courseid;
     if (!currentUserEmail) {
         return next(createHttpError(400, "Please provide data"));
     }
-    return user.AddUser(currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentUserRole,currentCourseid)
-    .then((currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentUserRole,currentCourseid)=>res.status(201).json({currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentUserRole,currentCourseid}))
+    return user.AddUser(currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentCourseid)
+    .then((currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentCourseid)=>res.status(201).json({currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentCourseid}))
     .catch(next);
     
       })
+
+
+//update userinfo by userid
+.put('/user/:userid', (req,res,next)=>{
+    const  userid =parseInt(req.params.userid); 
+    const username=req.body.username;
+    const userpassword=req.body.userpassword;
+    const useremail=req.body.useremail;
+    const useraddress=req.body.useraddress;
+    const usercontactnumber=req.body.usercontactnumber;
+    const courseid=req.body.courseid;
+
+console.log(userid,username,userpassword,useremail,useraddress,usercontactnumber,courseid);
+ return user.UpdateUserinfo(userid,username,userpassword,useremail,useraddress,usercontactnumber,courseid)
+ .then((result) => {
+    if (!result) return next(createHttpError(404, ` userinfo ${result} not successfully updated`));
+    console.log(result.rows);
+    return res.json(result.rows).end();
+})
+.catch(next);
+})
+
+
+
+
+
 
 
 //End Point CourseTable
