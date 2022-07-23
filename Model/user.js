@@ -1,10 +1,28 @@
 const createHttpError = require('http-errors');
 const { query, POSTGRES_ERROR_CODE } = require('../Database');
 
+const user_table = 'usertable';
+module.exports.user_table = user_table;
+
+const user_table_sql = `
+    CREATE TABLE ${user_table} (
+        Userid SERIAL primary key,
+        UserName VARCHAR not null,
+        UserPassword VARCHAR not null,
+        UserEmail VARCHAR not null,
+        UserAddress VARCHAR not null,
+        UserContactNumber VARCHAR not null,
+        UserRole VARCHAR not null,
+        Courseid INT not null,
+        CONSTRAINT fk_Course_id FOREIGN KEY(Courseid) REFERENCES coursetable(Courseid) ON DELETE CASCADE ON UPDATE CASCADE
+        
+    );
+`;
+module.exports.user_table_sql = user_table_sql;
 
 
 module.exports.LoginUser=function get(UserName,callback){
-    return query(`SELECT username FROM UserTable WHERE userid = ($1) and UserPassword = ($2)`, [
+    return query(`SELECT username FROM ${user_table} WHERE userid = ($1) and UserPassword = ($2)`, [
         UserName ]) .then((result) => {
             if  (!result.rows.length) return null;
             console.log(result.rows);
@@ -30,7 +48,7 @@ module.exports.LoginUser=function get(UserName,callback){
 
 //get all user
   module.exports.GetAllUser = function get() {
-    return query(`SELECT * FROM UserTable`,[])
+    return query(`SELECT * FROM ${user_table}`,[])
     .then((result) => {
         if  (!result.rows.length) return null;
         console.log(result.rows);
@@ -41,7 +59,7 @@ module.exports.LoginUser=function get(UserName,callback){
 //get user by id
 module.exports.GetUserbyID = function get(userid) {
     console.log(userid);
-    return query(`select * from usertable u inner join coursetable c on c.courseid=u.courseid where u.userid=$1`,[userid])
+    return query(`select * from ${user_table} u inner join coursetable c on c.courseid=u.courseid where u.userid=$1`,[userid])
     .then((result) => {
         if  (!result.rows.length) return null;
         console.log(result.rows);
@@ -50,7 +68,7 @@ module.exports.GetUserbyID = function get(userid) {
 };
 
 module.exports.AddUser = function add(currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentCourseid) {
-    return query(`Insert into usertable(username,userpassword,useremail,useraddress,usercontactnumber,userrole,courseid) values ($1,$2,$3,$4,$5,'Student',$6) RETURNING *`, [
+    return query(`Insert into ${user_table}(username,userpassword,useremail,useraddress,usercontactnumber,userrole,courseid) values ($1,$2,$3,$4,$5,'Student',$6) RETURNING *`, [
         currentUserName,
         currentUserPassword,
         currentUserEmail,
@@ -68,7 +86,7 @@ module.exports.AddUser = function add(currentUserName,currentUserPassword,curren
 
 //update all user info by userid
 module.exports.UpdateUserinfo=function add(userid,username,userpassword,useremail,useraddress,usercontactnumber,courseid) {
-    return query(`UPDATE usertable SET username= $2,userpassword= $3,useremail= $4,useraddress= $5,usercontactnumber= $6,userrole=$8,courseid= $7 where userid=$1  RETURNING *` , [userid,username,userpassword,useremail,useraddress,usercontactnumber,courseid])
+    return query(`UPDATE ${user_table} SET username= $2,userpassword= $3,useremail= $4,useraddress= $5,usercontactnumber= $6,userrole=$8,courseid= $7 where userid=$1  RETURNING *` , [userid,username,userpassword,useremail,useraddress,usercontactnumber,courseid])
     .then((result) => {
         if  (!result.rows.length) return null;
         console.log(result.rows);

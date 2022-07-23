@@ -1,9 +1,23 @@
 const createHttpError = require('http-errors');
 const { query, POSTGRES_ERROR_CODE } = require("../Database");
 
+const course_table = 'coursetable';
+module.exports.course_table = course_table;
+
+const Course_table_sql = `
+    CREATE TABLE ${course_table} (
+    Courseid SERIAL PRIMARY KEY,
+    Coursecode VARCHAR(255) UNIQUE NOT NULL,
+    CourseName VARCHAR(255) NOT NULL,
+    Courseabbrev VARCHAR(255) NOT NULL  
+        
+    );
+`;
+module.exports.Course_table_sql = Course_table_sql;
+
 //Get all course
 module.exports.GetAllCourse = function get() {
-    return query(`SELECT * FROM CourseTable`,[])
+    return query(`SELECT * FROM ${course_table}`,[])
     .then((result) => {
         if  (!result.rows.length) return null;
         console.log(result.rows);
@@ -13,7 +27,7 @@ module.exports.GetAllCourse = function get() {
 //Get course by ID
 module.exports.GetCoursebyID = function get(courseid) {
     console.log(courseid);
-    return query(`SELECT * FROM CourseTable where courseid=$1`,[courseid])
+    return query(`SELECT * FROM ${course_table} where courseid=$1`,[courseid])
     .then((result) => {
         if  (!result.rows.length) return null;
         console.log(result.rows);
@@ -22,7 +36,7 @@ module.exports.GetCoursebyID = function get(courseid) {
 };
 // Add Course
 module.exports.AddCourse = function add(currentCoursecode, currentCourseName,currentCourseabbrev) {
-    return query(`INSERT INTO coursetable(coursecode,coursename,courseabbrev) VALUES($1,$2,$3) RETURNING *`, [
+    return query(`INSERT INTO ${course_table}(coursecode,coursename,courseabbrev) VALUES($1,$2,$3) RETURNING *`, [
         currentCoursecode,
         currentCourseName,
         currentCourseabbrev
@@ -36,7 +50,7 @@ module.exports.AddCourse = function add(currentCoursecode, currentCourseName,cur
 };
 //To update the all the coursetable info
 module.exports.UpdateCourseinfo=function add(courseid,currentCoursecode,currentCourseName,currentCourseabbrev) {
-    return query(`UPDATE coursetable SET coursecode = $2,coursename = $3,courseabbrev = $4 where courseid = $1  RETURNING *` , [courseid,currentCoursecode,currentCourseName,currentCourseabbrev])
+    return query(`UPDATE ${course_table} SET coursecode = $2,coursename = $3,courseabbrev = $4 where courseid = $1  RETURNING *` , [courseid,currentCoursecode,currentCourseName,currentCourseabbrev])
     .then((result) => {
         if  (!result.rows.length) return null;
         console.log(result.rows);
@@ -47,7 +61,7 @@ module.exports.UpdateCourseinfo=function add(courseid,currentCoursecode,currentC
 //To delete Courseinfobyid
 
 module.exports.DeleteCourseinfo= function get(courseid) {
-    return query(`DELETE FROM coursetable where courseid= $1`,[courseid]).then((result) => {
+    return query(`DELETE FROM ${course_table} where courseid= $1`,[courseid]).then((result) => {
         if (!result.rows.length) return null;
         return result;
     });
@@ -56,7 +70,7 @@ module.exports.DeleteCourseinfo= function get(courseid) {
 //To get Coursename by Coursecode
 module.exports.GetCoursenamebyCoursecode=function GetCoursenamebyCoursecode(currentCoursecode) {
     console.log(currentCoursecode)
-    return query(`SELECT * From coursetable  where coursecode=$1`,[currentCoursecode])
+    return query(`SELECT * From ${course_table} where coursecode=$1`,[currentCoursecode])
 	.then((result) => {
         if (!result.rows) return null;
         return result.rows;

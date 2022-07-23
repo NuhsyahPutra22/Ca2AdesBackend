@@ -1,14 +1,20 @@
 /* eslint-disable no-console */
 const database = require('../database');
-const CREATE_SchoolManagementSystem_Table = require('../Createsqltable');
-
-console.log(CREATE_SchoolManagementSystem_Table);
+const user=require('../Model/user');
+const course=require('../Model/Course');
+console.log(user);
+console.log(course);
 
 
 database
     .query(
         `
-    DROP TABLE IF EXISTS ${CREATE_SchoolManagementSystem_Table};
+    ALTER TABLE ${user.user_table}
+    DROP CONSTRAINT fk_Course_id CASCADE;
+    DROP TABLE IF  EXISTS ${user.user_table};
+    ${user.user_table_sql}
+    DROP TABLE IF  EXISTS ${course.course_table};
+    ${course.Course_table_sql}
     `,
     )
     .then(() => {
@@ -20,4 +26,3 @@ database
     .finally(() => {
         database.end();
     })
-    module.exports = CREATE_SchoolManagementSystem_Table;
