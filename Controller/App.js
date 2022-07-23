@@ -132,8 +132,8 @@ module.exports = express()
     .then((result) => res.status(200).send("Successfully deleted CourseInfo").end())
         .catch(next);
 })
-//To get coursename by coursecode
-.get('/Course/:coursecode',(req,res,next)=>{
+//To get courseinfo by coursecode
+.get('/Courseinfo/:coursecode',(req,res,next)=>{
     const currentCoursecode=(req.params.coursecode)
     return Course.GetCoursenamebyCoursecode(currentCoursecode)
     .then((result) => {

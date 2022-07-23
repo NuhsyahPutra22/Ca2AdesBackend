@@ -56,7 +56,7 @@ module.exports.DeleteCourseinfo= function get(courseid) {
 //To get Coursename by Coursecode
 module.exports.GetCoursenamebyCoursecode=function GetCoursenamebyCoursecode(currentCoursecode) {
     console.log(currentCoursecode)
-    return query(`SELECT coursename From coursetable  where coursecode=$1`,[currentCoursecode])
+    return query(`SELECT * From coursetable  where coursecode=$1`,[currentCoursecode])
 	.then((result) => {
         if (!result.rows) return null;
         return result.rows;
