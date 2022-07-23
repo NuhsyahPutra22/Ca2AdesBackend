@@ -36,7 +36,7 @@ module.exports.AddCourse = function add(currentCoursecode, currentCourseName,cur
 };
 //To update the CreditUnit of the Module
 module.exports.UpdateCourseinfo=function add(courseid,coursecode,coursename,courseabbrev) {
-    return query(`UPDATE coursetable SET coursecode= $2,coursename=$3,courseabbrev=$4 where courseid =$1  RETURNING *` , [courseid,coursecode,coursename,courseabbrev]).then((result) => {
+    return query(`UPDATE coursetable SET coursecode = $2,coursename = $3,courseabbrev = $4 where courseid = $1  RETURNING *` , [courseid,coursecode,coursename,courseabbrev]).then((result) => {
         if (!result.rows.length) return null;
         return result;
     });

@@ -111,17 +111,17 @@ module.exports = express()
       //Update a Course information
      .put('/Course/:courseid/', 
      (req, res, next) => {
+        const courseid=req.params.courseid;
         const courseinfo = {
-          courseid:req.params.courseid,
           coursecode: req.body.coursecode,
           coursename: req.body.coursename,
           courseabbrev: req.body.courseabbrev,
         };
-        console.log(courseinfo);
-        if (!courseinfo) {
+        console.log(courseinfo,courseid);
+        if (!courseinfo || !courseid) {
           return next(createHttpError(400, "Please provide data"));
         }
-        return Course.UpdateCourseinfo(courseinfo).then((result) => {
+        return Course.UpdateCourseinfo(courseinfo,courseid).then((result) => {
           console.log(result.rows);
           if (!result) {
             return next(createHttpError(404, `Error`));
