@@ -21,7 +21,7 @@ const user_table_sql = `
 `;
 module.exports.user_table_sql = user_table_sql;
 
-
+//LoginUser
 module.exports.LoginUser=function get(username,userpassword){
     return query(`SELECT * FROM ${user_table} WHERE username = ($1) and userpassword = ($2)`, [
         username,userpassword ]) .then((result) => {
@@ -30,17 +30,6 @@ module.exports.LoginUser=function get(username,userpassword){
            return (result.rows);
         });
   }
-
-
-
-
-
-
-
-
-
-
-
 
 
 //get all user
@@ -63,7 +52,7 @@ module.exports.GetUserbyID = function get(userid) {
         return (result.rows);
     });
 };
-
+//Add user
 module.exports.AddUser = function add(currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentCourseid) {
     return query(`Insert into ${user_table}(username,userpassword,useremail,useraddress,usercontactnumber,userrole,courseid) values ($1,$2,$3,$4,$5,'Student',$6) RETURNING *`, [
         currentUserName,
@@ -71,7 +60,7 @@ module.exports.AddUser = function add(currentUserName,currentUserPassword,curren
         currentUserEmail,
         currentUserAddress,
         currentUserContactNumber,
-        currentCourseid
+        currentCourseid,
     ])
     .then((response) => response.rows[0].currentUserEmail)
     .catch((error) => {
@@ -81,7 +70,7 @@ module.exports.AddUser = function add(currentUserName,currentUserPassword,curren
     });
 };
 
-//update all user info by userid
+//update  user info by userid
 module.exports.UpdateUserinfo=function add(userid,username,userpassword,useremail,useraddress,usercontactnumber,courseid) {
     return query(`UPDATE ${user_table} SET username= $2,userpassword= $3,useremail= $4,useraddress= $5,usercontactnumber= $6,userrole=$8,courseid= $7 where userid=$1  RETURNING *` , [userid,username,userpassword,useremail,useraddress,usercontactnumber,courseid])
     .then((result) => {
@@ -100,7 +89,7 @@ module.exports.DeleteUser= function get(userid) {
 
 };
  
-//search user
+//search userinfo by username
 module.exports.searchuser=function searchuser(username) {
     console.log(username)
     return query(`SELECT * From ${user_table} where username=$1`,[username])

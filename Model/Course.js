@@ -67,10 +67,19 @@ module.exports.DeleteCourseinfo= function get(courseid) {
     });
 
 };
-//To get Coursename by Coursecode
+//To get Courseinfo by Coursecode
 module.exports.GetCoursenamebyCoursecode=function GetCoursenamebyCoursecode(currentCoursecode) {
     console.log(currentCoursecode)
     return query(`SELECT * From ${course_table} where coursecode=$1`,[currentCoursecode])
+	.then((result) => {
+        if (!result.rows) return null;
+        return result.rows;
+    });
+};
+//To get courseid using the coursename 
+module.exports.GetCourseidbyCoursename=function GetCourseidbyCoursename(currentCourseName) {
+    console.log(currentCourseName)
+    return query(`SELECT courseid From ${course_table} where coursename=$1`,[currentCourseName])
 	.then((result) => {
         if (!result.rows) return null;
         return result.rows;

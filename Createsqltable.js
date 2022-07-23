@@ -2,6 +2,9 @@
     Tables  to create:
     1.User table
     2.course table 
+    3.moduletable 
+    4.feedbacktable
+    
 
 
 
@@ -38,22 +41,31 @@ create table moduletable(
     modulename VARCHAR not null,
     moduledetail VARCHAR not null,
     courseid INT not null,
-    semesterid INT not null,
-    CONSTRAINT fk_Courseid FOREIGN KEY(courseid) REFERENCES coursetable(Courseid) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT fk_semester_id FOREIGN KEY(semesterid) REFERENCES semestertable(semesterid) ON DELETE CASCADE ON UPDATE CASCADE
+    semestername varchar not null,
+    CONSTRAINT fk_Courseid FOREIGN KEY(courseid) REFERENCES coursetable(Courseid) ON DELETE CASCADE ON UPDATE CASCADE
 )
 
-create table semestertable(
-    semesterid SERIAL primary key,
-    semestername varchar not null,
-    yearforsemester   varchar not null
+create table feedbacktable (
+    feedbackid SERIAL primary key,
+    feedbackcontent VARCHAR not null,
+    feedbackdate  DATE not null DEFAULT NOW(),
+    userid INT not null,
+    CONSTRAINT fk_userid FOREIGN KEY(userid) REFERENCES usertable(userid) ON DELETE CASCADE ON UPDATE CASCADE
 )
 
 ALTER TABLE usertable
 DROP CONSTRAINT fk_Course_id;
-DROP TABLE IF EXISTS usertable CASCADE;
-DROP TABLE IF EXISTS coursetable CASCADE;
 
+ALTER TABLE moduletable
+DROP CONSTRAINT fk_Courseid;
+
+ALTER TABLE feedbacktable
+DROP CONSTRAINT fk_userid;
+
+DROP TABLE IF EXISTS coursetable CASCADE;
+DROP TABLE IF EXISTS usertetable CASCADE;
+DROP TABLE IF EXISTS feedbaable CASCADE;
+DROP TABLE IF EXISTS moduletable CASCADE;
 
 
 
