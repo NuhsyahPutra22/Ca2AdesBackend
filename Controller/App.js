@@ -72,6 +72,27 @@ module.exports = express()
             
     // }))
 })
+//get all user 
+.get('/user', (req, res, next) => {
+    return user.GetAllUser()
+        .then((result) => {
+            if (!result) return next(createHttpError(404, `User Information ${result} not found`));
+            return res.json(result).end();
+        })
+        .catch(next);
+})
+
+//get userbyid
+.get('/user/:userid', (req, res, next) => {
+    const userid=(req.params.userid)
+    return user.GetUserbyID(userid)
+        .then((result) => {
+            if (!result) return next(createHttpError(404, `user Information ${result} not found`));
+            return res.json(result).end();
+        })
+        .catch(next);
+})
+
 
 
 

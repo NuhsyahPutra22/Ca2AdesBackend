@@ -28,5 +28,24 @@ module.exports.LoginUser=function get(UserName,callback){
         });
   }
 
+//get all user
+  module.exports.GetAllUser = function get() {
+    return query(`SELECT * FROM UserTable`,[])
+    .then((result) => {
+        if  (!result.rows.length) return null;
+        console.log(result.rows);
+        return (result.rows);
+    });
+};
 
+//get user by id
+module.exports.GetUserbyID = function get(userid) {
+    console.log(userid);
+    return query(`select * from usertable u inner join coursetable c on c.courseid=u.courseid where u.userid=$1`,[userid])
+    .then((result) => {
+        if  (!result.rows.length) return null;
+        console.log(result.rows);
+        return (result.rows);
+    });
+};
  
