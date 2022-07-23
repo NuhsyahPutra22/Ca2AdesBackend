@@ -131,9 +131,26 @@ console.log(userid,username,userpassword,useremail,useraddress,usercontactnumber
 .catch(next);
 })
 
+//delete user
+.delete('/user/:userid',(req,res,next)=>{
+    const userid=parseInt(req.params.userid);
+    console.log(userid);       
+    return user.DeleteUser(userid)
+    .then((result) => res.status(200).send("Successfully deleted user").end())
+        .catch(next);
+})
 
-
-
+//search
+.get('/searchuser/:username',(req,res,next)=>{
+    const username=(req.params.username)
+    return user.searchuser(username)
+    .then((result) => {
+        if (!result) return next(createHttpError(404, ` username ${result} not found`));
+        console.log(result);
+        return res.json(result).end;
+    })
+    .catch(next);
+})
 
 
 

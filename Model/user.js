@@ -93,4 +93,22 @@ module.exports.UpdateUserinfo=function add(userid,username,userpassword,useremai
         return (result.rows);
     });
 };
+
+//delete user
+module.exports.DeleteUser= function get(userid) {
+    return query(`DELETE FROM ${user_table} where userid= $1`,[userid]).then((result) => {
+        if (!result.rows.length) return null;
+        return result;
+    });
+
+};
  
+//search user
+module.exports.searchuser=function searchuser(username) {
+    console.log(username)
+    return query(`SELECT * From ${user_table} where username=$1`,[username])
+	.then((result) => {
+        if (!result.rows) return null;
+        return result.rows;
+    });
+};
