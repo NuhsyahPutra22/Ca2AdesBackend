@@ -11,6 +11,7 @@
 const CREATE_SchoolManagementSystem_Table = `
 DROP TABLE IF EXISTS coursetable CASCADE;
 DROP TABLE IF EXISTS usertable CASCADE;
+DROP TABLE IF EXISTS moduletable CASCADE;
 
 CREATE TABLE IF NOT EXISTS coursetable (
     Courseid SERIAL PRIMARY KEY,
