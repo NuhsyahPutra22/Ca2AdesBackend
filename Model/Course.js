@@ -46,10 +46,19 @@ module.exports.UpdateCourseinfo=function add(courseid,currentCoursecode,currentC
 
 //To delete Courseinfobyid
 
-module.exports.deleteCourseinfo= function get(courseid) {
+module.exports.DeleteCourseinfo= function get(courseid) {
     return query(`DELETE FROM coursetable where courseid= $1`,[courseid]).then((result) => {
         if (!result.rows.length) return null;
         return result;
     });
 
+};
+//To get Coursename by Coursecode
+module.exports.GetCoursenamebyCoursecode=function get(currentCoursecode) {
+    console.log(currentCoursecode)
+    return query(`SELECT coursename From coursetable  where coursecode=$1`,[currentCoursecode])
+	.then((result) => {
+        if (!result.rows) return null;
+        return result.rows;
+    });
 };

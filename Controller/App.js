@@ -128,9 +128,20 @@ module.exports = express()
 .delete('/Course/:courseid',(req,res,next)=>{
     const courseid=parseInt(req.params.courseid);
     console.log(courseid);       
-    return Course.deleteCourseinfo(courseid)
+    return Course.DeleteCourseinfo(courseid)
     .then((result) => res.status(200).send("Successfully deleted CourseInfo").end())
         .catch(next);
+})
+//To get coursename by coursecode
+.get('/Course/:coursecode',(req,res,next)=>{
+    const currentCoursecode=(req.params.coursecode)
+    return Course.GetCoursenamebyCoursecode(currentCoursecode)
+    .then((result) => {
+        if (!result) return next(createHttpError(404, ` Coursename ${result} not found`));
+        console.log(result);
+        return res.json(result).end;
+    })
+    .catch(next);
 })
     
      
