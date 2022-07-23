@@ -109,7 +109,7 @@ module.exports = express()
     
       })
       //Update a Course information
-     .put('/Course/:courseid/:coursecode/:coursename:/:courseabbrev', 
+     .put('/Course/:courseid/', 
      (req, res, next) => {
         const courseinfo = {
           courseid: req.params.courseid,
