@@ -94,7 +94,7 @@ module.exports = express()
 })
 
 //add user
-.post('/addnewuser', function (req, res,next) {
+.post('/user', function (req, res,next) {
     const currentUserName=req.body.username;
     const currentUserPassword=req.body.userpassword;
     const currentUserEmail=req.body.useremail;
@@ -102,7 +102,7 @@ module.exports = express()
     const currentUserContactNumber=req.body.usercontactnumber;
     const currentUserRole=req.body.userrole;
     const currentCourseid=req.body.courseid;
-    if (!currentUserName) {
+    if (!currentUserEmail) {
         return next(createHttpError(400, "Please provide data"));
     }
     return user.AddUser(currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentUserRole,currentCourseid)

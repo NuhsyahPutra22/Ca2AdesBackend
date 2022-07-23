@@ -59,11 +59,11 @@ module.exports.AddUser = function add(currentUserName,currentUserPassword,curren
         currentUserRole,
         currentCourseid
     ])
-        .then((response) => response.rows[0].currentUserName)
-        .catch((error) => {
-            if (error.code === POSTGRES_ERROR_CODE.UNIQUE_CONSTRAINT) {
-                throw createHttpError(400, `User ${currentUserName} already exists`);
-            } else throw error; // unexpected error
-        });
+    .then((response) => response.rows[0].currentUserEmail)
+    .catch((error) => {
+        if (error.code === POSTGRES_ERROR_CODE.UNIQUE_CONSTRAINT) {
+            throw createHttpError(400, `Coursecode ${currentUserEmail} already exists`);
+        } else throw error; // unexpected error
+    });
 };
  
