@@ -1,5 +1,5 @@
 const createHttpError = require('http-errors');
-const { query, POSTGRES_ERROR_CODE } = require("../databaseConn");
+const { query, POSTGRES_ERROR_CODE } = require("../Database");
 
 const feedback_table = 'feedbacktable';
 module.exports.feedback_table = feedback_table;
