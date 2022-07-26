@@ -334,14 +334,14 @@ module.exports = express()
     })
     //Make Feedback
     .post('/Feedback', function (req, res, next) {
-        const currentfeedbackcontent = req.body.feedbackid;
-        const currentfeedbackdate = req.body.feedbackdate;
+        const currentfeedbackcontent = req.body.feedbackcontent;
+     
         const currentuserid = req.body.userid;
         if (!currentuserid) {
             return next(createHttpError(400, "Please provide feedback"));
         }
-        return Feedback.MakeFeedback(currentfeedbackcontent, currentfeedbackdate, currentuserid)
-            .then((currentfeedbackcontent, currentfeedbackdate, currentuserid) => res.status(201).json({ currentfeedbackcontent, currentfeedbackdate, currentuserid }))
+        return Feedback.MakeFeedback(currentfeedbackcontent, currentuserid)
+            .then((currentfeedbackcontent,currentuserid) => res.status(201).json({ currentfeedbackcontent,currentuserid }))
             .catch(next);
 
     })

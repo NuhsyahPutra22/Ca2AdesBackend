@@ -27,7 +27,7 @@ module.exports.LoginUser=function get(username,userpassword){
         username,userpassword ]) .then((result) => {
             if  (!result.rows.length) return null;
             console.log(result.rows);
-           return (result.rows);
+           return (result.rows[0]);
         });
   }
 

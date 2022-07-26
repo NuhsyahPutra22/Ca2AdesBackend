@@ -10,7 +10,7 @@ const Feedback_table_sql = `
         feedbackcontent VARCHAR not null,
         feedbackdate  DATE not null DEFAULT NOW(),
         userid INT not null,
-        CONSTRAINT fk_userid FOREIGN KEY(userid) REFERENCES usertable(userid) ON DELETE CASCADE ON UPDATE CASCADE
+        CONSTRAINT fk_userid FOREIGN KEY(userid) REFERENCES usertable(userid) ON DELETE CASCADE ON UPDATE CASCADE)
 `;
 module.exports.Feedback_table_sql = Feedback_table_sql;
 
@@ -35,10 +35,9 @@ module.exports.GetFeedbackbyID = function get(feedbackid) {
 };
 
 // Make Feedback
-module.exports.MakeFeedback = function add(currentfeedbackcontent, currentfeedbackdate,currentuserid) {
-    return query(`INSERT INTO ${feedback_table}(feedbackcontent,feedbackdate,userid) VALUES($1,$2,$3) RETURNING *`, [
+module.exports.MakeFeedback = function add(currentfeedbackcontent,currentuserid) {
+    return query(`INSERT INTO ${feedback_table}(feedbackcontent,userid) VALUES($1,$2) RETURNING *`, [
         currentfeedbackcontent, 
-        currentfeedbackdate,
         currentuserid
     ])
         .then((response) => response.rows[0].currentuserid)
