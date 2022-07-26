@@ -44,7 +44,7 @@ module.exports.AddModule = function add(currentModulecode, currentModuleName,cur
     return query(`INSERT INTO ${module_table}(modulecode,modulename,moduledetail,courseid,semestername) VALUES($1,$2,$3,$4,$5) RETURNING *`, [
         currentModulecode,
         currentModuleName,
-        ,currentModuledetail,
+        currentModuledetail,
         currentCourseid,
         currentSemesterName
     ])
