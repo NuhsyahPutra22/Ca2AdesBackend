@@ -287,7 +287,7 @@ module.exports = express()
     .delete('/Module/:moduleid', (req, res, next) => {
         const moduleid = parseInt(req.params.moduleid);
         console.log(moduleid);
-        return Module.DeleteModule(moduleid)
+        return Module.DeleteModuleinfo(moduleid)
             .then((result) => res.status(200).send("Successfully deleted module").end())
             .catch(next);
     })
