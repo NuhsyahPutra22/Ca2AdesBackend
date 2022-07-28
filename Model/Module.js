@@ -23,8 +23,20 @@ module.exports.GetAllModule = function get() {
     return query(`SELECT * FROM ${module_table}`,[])
     .then((result) => {
         if  (!result.rows.length) return null;
-        console.log(result.rows);
-        return (result.rows);
+        const modulelist = [];
+        for (let i = 0; i < result.rows.length; i++) {
+          const module = result.rows[i];
+          modulelist.push({
+          
+
+            modulecode:module.modulecode,
+            modulename:module.modulename,
+            moduledetail:module.moduledetail
+           
+          });
+        }
+        console.log(modulelist)
+        return(modulelist)
     });
 };
 

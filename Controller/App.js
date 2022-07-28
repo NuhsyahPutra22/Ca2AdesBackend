@@ -240,7 +240,10 @@ module.exports = express()
         return Module.GetAllModule()
             .then((result) => {
                 if (!result) return next(createHttpError(404, `Module Information ${result} not found`));
-                return res.json(result).end();
+                return   res.status(200).send({
+                    result
+                      
+                    });
             })
             .catch(next);
     })
