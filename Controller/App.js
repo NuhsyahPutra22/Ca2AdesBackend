@@ -157,7 +157,11 @@ module.exports = express()
         return Course.GetAllCourse()
             .then((result) => {
                 if (!result) return next(createHttpError(404, `Course Information ${result} not found`));
-                return res.json(result).end();
+     
+                return   res.status(200).send({
+                result
+                  
+                });
             })
             .catch(next);
     })

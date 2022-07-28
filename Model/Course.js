@@ -20,8 +20,25 @@ module.exports.GetAllCourse = function get() {
     return query(`SELECT * FROM ${course_table}`,[])
     .then((result) => {
         if  (!result.rows.length) return null;
-        console.log(result.rows);
-        return (result.rows);
+        // console.log(result.rows);
+        const courselist = [];
+        for (let i = 0; i < result.rows.length; i++) {
+          const course = result.rows[i];
+          courselist.push({
+          
+
+            coursecode:course.coursecode,
+            coursename:course.coursename,
+            courseabbrev:course.courseabbrev
+           
+          });
+        }
+        console.log(courselist)
+        return(courselist)
+        // for (let i = 0; i < result.rows.length; i++){
+        //     // console.log(result.rows[i] )
+        //     return (result.rows[i] );
+        // }
     });
 };
 //Get course by ID
