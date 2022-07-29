@@ -26,7 +26,7 @@ module.exports.GetAllCourse = function get() {
           const course = result.rows[i];
           courselist.push({
           
-
+            courseid:course.courseid,
             coursecode:course.coursecode,
             coursename:course.coursename,
             courseabbrev:course.courseabbrev

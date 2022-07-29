@@ -36,7 +36,8 @@ module.exports = express()
 
                     let payload = {
                         username: result.username,
-                        userrole: result.userrole
+                        userrole: result.userrole,
+                        courseid:result.courseid
                     };
 
                     let tokenConfig = {
@@ -57,7 +58,9 @@ module.exports = express()
                             res.status(200).send({
                                 token: token,
                                 username: result.username,
-                                userrole: result.userrole
+                                userrole: result.userrole,
+                                courseid:result.courseid,
+                                userid:result.userid
                             });
                         }
                     });
@@ -149,7 +152,7 @@ module.exports = express()
             .catch(next);
     })
 
-
+  
 
     //End Point CourseTable
     //Get all the course
@@ -247,6 +250,19 @@ module.exports = express()
             })
             .catch(next);
     })
+    //Get  moduleinfo by userid
+    .get('/Modulecourse/:courseid', (req, res, next) => {
+        const courseid = (req.params.courseid)
+        return Module.GetModulewithuserid(courseid)
+            .then((result) => {
+                if (!result) return next(createHttpError(404, `Module Information ${result} not found`));
+                return   res.status(200).send({
+                    result
+                      
+                    });
+            })
+            .catch(next);
+    })
     //Get course by ID
     .get('/Module/:moduleid', (req, res, next) => {
         const moduleid = (req.params.moduleid)
@@ -325,7 +341,10 @@ module.exports = express()
         return Feedback.GetAllFeedback()
             .then((result) => {
                 if (!result) return next(createHttpError(404, `Feedback Information ${result} not found`));
-                return res.json(result).end();
+                return  res.status(200).send({
+                    result
+                      
+                    });
             })
             .catch(next);
     })

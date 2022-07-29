@@ -31,6 +31,32 @@ module.exports.LoginUser=function get(username,userpassword){
         });
   }
 
+  module.exports.readStaffInfo = (req, res, next) => {
+
+    const authentication = req.headers.authorization;
+  
+    try {
+        const jwtToken = authentication.split("Bearer ")[1]
+        jwt.verify(jwtToken, config.ACCESS_TOKEN_SECRET, function (err, jwtTokenDecrypted) {
+            if (err) {
+                // logout here 
+                res.status(401).send("JWT Token Information Malformed");
+            } else {
+                // read data from the jwt token
+                const { staffid, firstname, lastname, staffemail, staffrole, staffpassword} = jwtTokenDecrypted;
+  
+                res.status(200).send({ staffid, firstname, lastname, staffemail, staffrole, staffpassword});
+            }
+        });
+    } catch (error) {
+        // error decrypting the token
+        res.status(401).send("JWT Token Information Malformed");
+    }
+  
+  
+  }
+
+
 
 //get all user
   module.exports.GetAllUser = function get() {

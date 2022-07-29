@@ -40,6 +40,27 @@ module.exports.GetAllModule = function get() {
     });
 };
 
+module.exports.GetModulewithuserid = function get(courseid) {
+    return query(`SELECT m.* FROM moduletable m inner join usertable  a on  m.courseid=$1 `,[courseid])
+    .then((result) => {
+        if  (!result.rows.length) return null;
+        const modulelist = [];
+        for (let i = 0; i < result.rows.length; i++) {
+          const module = result.rows[i];
+          modulelist.push({
+          
+
+            modulecode:module.modulecode,
+            modulename:module.modulename,
+            moduledetail:module.moduledetail
+           
+          });
+        }
+        console.log(modulelist)
+        return(modulelist)
+    });
+};
+
 //Get Module by ID
 module.exports.GetModulebyID = function get(moduleid) {
     console.log(moduleid);

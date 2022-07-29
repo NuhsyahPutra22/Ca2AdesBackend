@@ -19,8 +19,19 @@ module.exports.GetAllFeedback = function get() {
     return query(`SELECT * FROM ${feedback_table}`,[])
     .then((result) => {
         if  (!result.rows.length) return null;
-        console.log(result.rows);
-        return (result.rows);
+        const feedbacklist = [];
+        for (let i = 0; i < result.rows.length; i++) {
+          const feedback = result.rows[i];
+          feedbacklist.push({
+          
+            feedbackid:feedback.feedbackid,
+            feedbackcontent:feedback.feedbackcontent,
+            feedbackdate:feedback.feedbackdate
+           
+          });
+        }
+        console.log(feedbacklist)
+        return(feedbacklist)
     });
 };
 //Get Feedback by ID
