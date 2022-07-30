@@ -360,22 +360,24 @@ module.exports = express()
     })
     //Make Feedback
     .post('/Feedback', function (req, res, next) {
+        const currentfeedbacktitle = req.body.feedbacktitle;
         const currentfeedbackcontent = req.body.feedbackcontent;
      
         const currentuserid = req.body.userid;
         if (!currentuserid) {
             return next(createHttpError(400, "Please provide feedback"));
         }
-        return Feedback.MakeFeedback(currentfeedbackcontent, currentuserid)
-            .then((currentfeedbackcontent,currentuserid) => res.status(201).json({ currentfeedbackcontent,currentuserid }))
+        return Feedback.MakeFeedback(currentfeedbacktitle,currentfeedbackcontent, currentuserid)
+            .then((currentfeedbacktitle,currentfeedbackcontent,currentuserid) => res.status(201).json({currentfeedbacktitle, currentfeedbackcontent,currentuserid }))
             .catch(next);
 
     })
     //delete Feedback by userid
-    .delete('/Feedback/:userid', (req, res, next) => {
+    .delete('/Feedback/:userid/:feedbackid', (req, res, next) => {
         const currentuserid= parseInt(req.params.userid);
+        const currentfeedbackid= parseInt(req.params.feedbackid);
         console.log(currentuserid);
-        return Feedback.DeleteFeedbackinfo(currentuserid)
+        return Feedback.DeleteFeedbackinfo(currentuserid,currentfeedbackid)
             .then((result) => res.status(200).send("Successfully deleted Feedback").end())
             .catch(next);
     })

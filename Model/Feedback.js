@@ -7,6 +7,7 @@ module.exports.feedback_table = feedback_table;
 const Feedback_table_sql = `
     CREATE TABLE ${feedback_table} (
         feedbackid SERIAL primary key,
+        feedbacktitle VARCHAR not null,
         feedbackcontent VARCHAR not null,
         feedbackdate  DATE not null DEFAULT NOW(),
         userid INT not null,
@@ -25,8 +26,10 @@ module.exports.GetAllFeedback = function get() {
           feedbacklist.push({
           
             feedbackid:feedback.feedbackid,
+            feedbacktitle:feedback.feedbacktitle,
             feedbackcontent:feedback.feedbackcontent,
-            feedbackdate:feedback.feedbackdate
+            feedbackdate:feedback.feedbackdate,
+            userid:feedback.userid
            
           });
         }
@@ -46,8 +49,9 @@ module.exports.GetFeedbackbyID = function get(feedbackid) {
 };
 
 // Make Feedback
-module.exports.MakeFeedback = function add(currentfeedbackcontent,currentuserid) {
-    return query(`INSERT INTO ${feedback_table}(feedbackcontent,userid) VALUES($1,$2) RETURNING *`, [
+module.exports.MakeFeedback = function add(currentfeedbacktitle,currentfeedbackcontent,currentuserid) {
+    return query(`INSERT INTO ${feedback_table}(feedbacktitle,feedbackcontent,userid) VALUES($1,$2,$3) RETURNING *`, [
+        currentfeedbacktitle,
         currentfeedbackcontent, 
         currentuserid
     ])
@@ -60,8 +64,8 @@ module.exports.MakeFeedback = function add(currentfeedbackcontent,currentuserid)
 };
 //To delete feedback by userid
 
-module.exports.DeleteFeedbackinfo= function get(currentuserid) {
-    return query(`DELETE FROM ${feedback_table} where userid= $1`,[currentuserid]).then((result) => {
+module.exports.DeleteFeedbackinfo= function get(currentuserid,currentfeedbackid) {
+    return query(`DELETE FROM ${feedback_table} where userid= $1 and feedbackid=$2`,[currentuserid,currentfeedbackid]).then((result) => {
         if (!result.rows.length) return null;
         return result;
     });
