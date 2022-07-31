@@ -83,12 +83,15 @@ module.exports = express()
     })
 
     //get userbyid
-    .get('/user/:userid', isLoggedInMiddleWare, (req, res, next) => {
+    .get('/user/:userid', (req, res, next) => {
         const userid = (req.params.userid)
         return user.GetUserbyID(userid)
             .then((result) => {
                 if (!result) return next(createHttpError(404, `user Information ${result} not found`));
-                return res.json(result).end();
+                return res.status(200).send({
+                    result
+                      
+                    });
             })
             .catch(next);
     })

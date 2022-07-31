@@ -31,30 +31,7 @@ module.exports.LoginUser=function get(username,userpassword){
         });
   }
 
-  module.exports.readStaffInfo = (req, res, next) => {
-
-    const authentication = req.headers.authorization;
   
-    try {
-        const jwtToken = authentication.split("Bearer ")[1]
-        jwt.verify(jwtToken, config.ACCESS_TOKEN_SECRET, function (err, jwtTokenDecrypted) {
-            if (err) {
-                // logout here 
-                res.status(401).send("JWT Token Information Malformed");
-            } else {
-                // read data from the jwt token
-                const { staffid, firstname, lastname, staffemail, staffrole, staffpassword} = jwtTokenDecrypted;
-  
-                res.status(200).send({ staffid, firstname, lastname, staffemail, staffrole, staffpassword});
-            }
-        });
-    } catch (error) {
-        // error decrypting the token
-        res.status(401).send("JWT Token Information Malformed");
-    }
-  
-  
-  }
 
 
 
@@ -75,7 +52,22 @@ module.exports.GetUserbyID = function get(userid) {
     .then((result) => {
         if  (!result.rows.length) return null;
         console.log(result.rows);
-        return (result.rows);
+         const userlist = [];
+        for (let i = 0; i < result.rows.length; i++) {
+          const user = result.rows[i];
+          userlist.push({
+          
+
+            userid:user.userid,
+            courseid:user.courseid,
+            coursecode:user.coursecode,
+           coursename:user.coursename,
+           courseid:user.courseid,
+           courseabbrev:user.courseabbrev
+          });
+        }
+        console.log(userlist)
+        return(userlist);
     });
 };
 //Add user
