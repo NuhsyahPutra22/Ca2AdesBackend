@@ -37,11 +37,24 @@ module.exports.LoginUser=function get(username,userpassword){
 
 //get all user
   module.exports.GetAllUser = function get() {
-    return query(`SELECT * FROM ${user_table}`,[])
+    return query(`SELECT a.userid, a.username,a.useremail,b.coursename,c.semestername from usertable a inner join coursetable b on b.courseid=a.courseid inner join moduletable c on c.courseid=a.courseid where userrole='Student';`,[])
     .then((result) => {
         if  (!result.rows.length) return null;
         console.log(result.rows);
-        return (result.rows);
+        const userlist = [];
+        for (let i = 0; i < result.rows.length; i++) {
+          const user = result.rows[i];
+          userlist.push({
+          
+            userid:user.userid,
+            username:user.username,
+            useremail:user.useremail,
+            coursename:user.coursename,
+           semestername:user.semestername,
+          });
+        }
+        console.log(userlist)
+        return(userlist);
     });
 };
 
@@ -75,13 +88,14 @@ module.exports.GetUserbyID = function get(userid) {
     });
 };
 //Add user
-module.exports.AddUser = function add(currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentCourseid) {
-    return query(`Insert into ${user_table}(username,userpassword,useremail,useraddress,usercontactnumber,userrole,courseid) values ($1,$2,$3,$4,$5,'Student',$6) RETURNING *`, [
+module.exports.AddUser = function add(currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentUserRole,currentCourseid) {
+    return query(`Insert into ${user_table}(username,userpassword,useremail,useraddress,usercontactnumber,userrole,courseid) values ($1,$2,$3,$4,$5,$6,$7) RETURNING *`, [
         currentUserName,
         currentUserPassword,
         currentUserEmail,
         currentUserAddress,
         currentUserContactNumber,
+        currentUserRole,
         currentCourseid,
     ])
     .then((response) => response.rows[0].currentUserEmail)

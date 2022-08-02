@@ -73,11 +73,14 @@ module.exports = express()
 
     })
     //get all user 
-    .get('/user', verifytoken, (req, res, next) => {
+    .get('/user', (req, res, next) => {
         return user.GetAllUser()
             .then((result) => {
                 if (!result) return next(createHttpError(404, `User Information ${result} not found`));
-                return res.json(result).end();
+                return res.status(200).send({
+                    result
+                      
+                    });
             })
             .catch(next);
     })
@@ -97,18 +100,19 @@ module.exports = express()
     })
 
     //add user
-    .post('/user', verifytoken, function (req, res, next) {
+    .post('/user', function (req, res, next) {
         const currentUserName = req.body.username;
         const currentUserPassword = req.body.userpassword;
         const currentUserEmail = req.body.useremail;
         const currentUserAddress = req.body.useraddress;
         const currentUserContactNumber = req.body.usercontactnumber;
+        const currentUserRole = req.body.userrole;
         const currentCourseid = req.body.courseid;
         if (!currentUserEmail) {
             return next(createHttpError(400, "Please provide data"));
         }
-        return user.AddUser(currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber, currentCourseid)
-            .then((currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber, currentCourseid) => res.status(201).json({ currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber, currentCourseid }))
+        return user.AddUser(currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber, currentUserRole,currentCourseid)
+            .then((currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber, currentUserRole,currentCourseid) => res.status(201).json({ currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber,currentUserRole, currentCourseid }))
             .catch(next);
 
     })
