@@ -138,7 +138,7 @@ module.exports = express()
     })
 
     //delete user by id
-    .delete('/user/:userid', verifytoken, (req, res, next) => {
+    .delete('/user/:userid', (req, res, next) => {
         const userid = parseInt(req.params.userid);
         console.log(userid);
         return user.DeleteUser(userid)
