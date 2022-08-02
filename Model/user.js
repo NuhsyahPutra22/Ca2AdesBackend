@@ -72,6 +72,7 @@ module.exports.GetUserbyID = function get(userid) {
           
 
             userid:user.userid,
+            username:user.username,
             useremail:user.useremail,
             userpassword:user.userpassword,
             useraddress:user.useraddress,
