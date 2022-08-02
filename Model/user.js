@@ -59,6 +59,10 @@ module.exports.GetUserbyID = function get(userid) {
           
 
             userid:user.userid,
+            useremail:user.useremail,
+            userpassword:user.userpassword,
+            useraddress:user.useraddress,
+            usercontactnumber:user.usercontactnumber,
             courseid:user.courseid,
             coursecode:user.coursecode,
            coursename:user.coursename,
@@ -89,8 +93,8 @@ module.exports.AddUser = function add(currentUserName,currentUserPassword,curren
 };
 
 //update  user info by userid
-module.exports.UpdateUserinfo=function add(userid,username,userpassword,useremail,useraddress,usercontactnumber,courseid) {
-    return query(`UPDATE ${user_table} SET username= $2,userpassword= $3,useremail= $4,useraddress= $5,usercontactnumber= $6,userrole=$8,courseid= $7 where userid=$1  RETURNING *` , [userid,username,userpassword,useremail,useraddress,usercontactnumber,courseid])
+module.exports.UpdateUserinfo=function add(userid,userpassword,useremail,useraddress,usercontactnumber) {
+    return query(`UPDATE ${user_table} SET userpassword= $2,useremail= $3,useraddress= $4,usercontactnumber= $5 where userid=$1  RETURNING *` , [userid,userpassword,useremail,useraddress,usercontactnumber])
     .then((result) => {
         if  (!result.rows.length) return null;
         console.log(result.rows);

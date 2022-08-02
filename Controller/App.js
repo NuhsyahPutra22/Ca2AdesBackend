@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const createHttpError = require('http-errors');
-var isLoggedInMiddleWare = require('../auth/verifytoken');
+const verifytoken = require('../auth/verifytoken');
 const user = require('../Model/user');
 const Course = require('../Model/Course');
 const Module = require('../Model/Module');
@@ -73,7 +73,7 @@ module.exports = express()
 
     })
     //get all user 
-    .get('/user', isLoggedInMiddleWare, (req, res, next) => {
+    .get('/user', verifytoken, (req, res, next) => {
         return user.GetAllUser()
             .then((result) => {
                 if (!result) return next(createHttpError(404, `User Information ${result} not found`));
@@ -97,7 +97,7 @@ module.exports = express()
     })
 
     //add user
-    .post('/user', isLoggedInMiddleWare, function (req, res, next) {
+    .post('/user', verifytoken, function (req, res, next) {
         const currentUserName = req.body.username;
         const currentUserPassword = req.body.userpassword;
         const currentUserEmail = req.body.useremail;
@@ -115,17 +115,16 @@ module.exports = express()
 
 
     //update userinfo by userid
-    .put('/user/:userid', isLoggedInMiddleWare, (req, res, next) => {
+    .put('/user/:userid', verifytoken, (req, res, next) => {
         const userid = parseInt(req.params.userid);
-        const username = req.body.username;
         const userpassword = req.body.userpassword;
         const useremail = req.body.useremail;
         const useraddress = req.body.useraddress;
         const usercontactnumber = req.body.usercontactnumber;
-        const courseid = req.body.courseid;
 
-        console.log(userid, username, userpassword, useremail, useraddress, usercontactnumber, courseid);
-        return user.UpdateUserinfo(userid, username, userpassword, useremail, useraddress, usercontactnumber, courseid)
+
+        console.log(userid, userpassword, useremail, useraddress, usercontactnumber);
+        return user.UpdateUserinfo(userid,  userpassword, useremail, useraddress, usercontactnumber)
             .then((result) => {
                 if (!result) return next(createHttpError(404, ` userinfo ${result} not successfully updated`));
                 console.log(result.rows);
@@ -135,7 +134,7 @@ module.exports = express()
     })
 
     //delete user by id
-    .delete('/user/:userid', isLoggedInMiddleWare, (req, res, next) => {
+    .delete('/user/:userid', verifytoken, (req, res, next) => {
         const userid = parseInt(req.params.userid);
         console.log(userid);
         return user.DeleteUser(userid)
@@ -144,7 +143,7 @@ module.exports = express()
     })
 
     //search username for info
-    .get('/searchuser/:username', isLoggedInMiddleWare, (req, res, next) => {
+    .get('/searchuser/:username', verifytoken, (req, res, next) => {
         const username = (req.params.username)
         return user.searchuser(username)
             .then((result) => {
