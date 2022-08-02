@@ -76,6 +76,7 @@ module.exports.GetUserbyID = function get(userid) {
             useremail:user.useremail,
             userpassword:user.userpassword,
             useraddress:user.useraddress,
+            semestername:user.semestername,
             usercontactnumber:user.usercontactnumber,
             courseid:user.courseid,
             coursecode:user.coursecode,

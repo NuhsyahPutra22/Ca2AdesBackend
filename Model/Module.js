@@ -67,11 +67,33 @@ module.exports.GetModulebyID = function get(moduleid) {
     return query(`SELECT * FROM ${module_table} where moduleid=$1`,[moduleid])
     .then((result) => {
         if  (!result.rows.length) return null;
+      
+        const modulelist = [];
+        for (let i = 0; i < result.rows.length; i++) {
+          const module = result.rows[i];
+          modulelist.push({
+          
+
+            modulecode:module.modulecode,
+            modulename:module.modulename,
+            
+           
+          });
+        }
+        console.log(modulelist)
+        return(modulelist)
+    });
+};
+//get module by userid
+module.exports.GetModulebyUserID = function get(userid) {
+
+    return query(`select * from usertable a inner join moduletable b on a.courseid=b.courseid and a.semestername=b.semestername where userid=$1`,[userid])
+    .then((result) => {
+        if  (!result.rows.length) return null;
         console.log(result.rows);
         return (result.rows);
     });
 };
-
 // Add Module
 module.exports.AddModule = function add(currentModulecode, currentModuleName,currentModuledetail,currentCourseid,currentSemesterName) {
     return query(`INSERT INTO ${module_table}(modulecode,modulename,moduledetail,courseid,semestername) VALUES($1,$2,$3,$4,$5) RETURNING *`, [

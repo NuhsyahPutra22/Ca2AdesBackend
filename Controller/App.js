@@ -279,6 +279,19 @@ module.exports = express()
             })
             .catch(next);
     })
+  //get module by userid
+    .get('/ModulebyUser/:userid', (req, res, next) => {
+        const userid = (req.params.userid)
+        return Module.GetModulebyUserID(userid)
+            .then((result) => {
+                if (!result) return next(createHttpError(404, `Module Information ${result} not found`));
+                return   res.status(200).send({
+                    result
+                      
+                    });
+            })
+            .catch(next);
+    })
     //Add Course
     .post('/Module', function (req, res, next) {
         const currentModulecode = req.body.modulecode;
