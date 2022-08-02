@@ -37,7 +37,7 @@ module.exports.LoginUser=function get(username,userpassword){
 
 //get all user
   module.exports.GetAllUser = function get() {
-    return query(`SELECT a.userid, a.username,a.useremail,b.coursename,c.semestername from usertable a inner join coursetable b on b.courseid=a.courseid inner join moduletable c on c.courseid=a.courseid where userrole='Student';`,[])
+    return query(`SELECT a.userid, a.username,a.useremail,b.coursename,a.semestername from usertable a inner join coursetable b on b.courseid=a.courseid  where userrole='Student';`,[])
     .then((result) => {
         if  (!result.rows.length) return null;
         console.log(result.rows);
