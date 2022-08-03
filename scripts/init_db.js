@@ -4,10 +4,12 @@ const user=require('../Model/user');
 const course=require('../Model/Course');
 const Module=require('../Model/Module');
 const Feedback=require('../Model/Feedback');
+const quiz=require('../Model/quiz')
 console.log(user);
 console.log(course);
 console.log(Module);
 console.log(Feedback);
+console.log(quiz);
 
 database
     .query(
@@ -18,6 +20,8 @@ database
     DROP CONSTRAINT fk_Courseid CASCADE;
     ALTER TABLE ${Feedback.feedback_table}
     DROP CONSTRAINT fk_userid CASCADE;
+    ALTER TABLE ${quiz.quiz_table}
+    DROP CONSTRAINT fk_userid CASCADE;
     DROP TABLE IF  EXISTS ${user.user_table};
     ${user.user_table_sql}
     DROP TABLE IF  EXISTS ${course.course_table};
@@ -26,6 +30,8 @@ database
     ${Module.Module_table_sql}
     DROP TABLE IF  EXISTS ${Feedback.feedback_table};
     ${Feedback.Feedback_table_sql}
+    DROP TABLE IF  EXISTS ${quiz.quiz_table};
+    ${quiz.quiz_table_sql}
     `,
     )
     .then(() => {

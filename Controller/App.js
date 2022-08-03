@@ -7,6 +7,7 @@ const user = require('../Model/user');
 const Course = require('../Model/Course');
 const Module = require('../Model/Module');
 const Feedback = require('../Model/Feedback');
+const Quiz = require('../Model/quiz');
 const { query } = require('../database');
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = require("../config");
@@ -425,6 +426,65 @@ module.exports = express()
             .catch(next);
     })
 
+    // endpoints for quiz table
+    // get all quiz attempts
+    .get('/Quiz', (req, res, next) => {
+        return Quiz.GetAllAttempts()
+            .then((result) => {
+                if (!result) return next(createHttpError(404, `Quiz attempts ${result} not found`));
+                return res.status(200).send({
+                    result
+                      
+                    });
+            })
+            .catch(next);
+    })
+
+    // get all quiz attempts by userid
+    .get('/Quiz/:userid', (req, res, next) => {
+        const userid = (req.params.userid);
+        return Quiz.GetAttemptsbyID(userid)
+            .then((result) => {
+                if (!result) return next(createHttpError(404, `Quiz attempt ${result} not found`));
+                return res.status(200).send({
+                    result
+                      
+                    });
+            })
+            .catch(next);
+    })
+
+    // delete quiz attempt for user by quizid (admin)
+    .delete('/Quiz/quizid', (req, res, next) => {
+        const quizid = parseInt(req.params.quizid);
+        console.log(quizid);
+        return quiz.DeleteAttemptByID(quizid)
+            .then((result) => res.status(200).send("Successfully deleted quiz attempt").end())
+            .catch(next);
+    })
+
+    // create a quiz attempt
+    .post('/Quiz', function (req, res, next) {
+        const q1 = req.body.q1;
+        const q2 = req.body.q2;
+        const q3 = req.body.q3;
+        const q4 = req.body.q4;
+        const q5 = req.body.q5;
+        const q6 = req.body.q6;
+        const q7 = req.body.q7;
+        const q8 = req.body.q8;
+        const q9 = req.body.q9;
+        const q10 = req.body.q10;
+        const total_score = req.body.total_score;
+        if (!rows[0]) {
+            return next(createHttpError(400, "Please provide data"));
+        }
+        return Course.CreateAttempt(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, total_score)
+            .then((q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, total_score) => 
+            res.status(201).json({ q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, total_score }))
+            .catch(next);
+
+    })
 
     .use((req, res, next) => next(createHttpError(404, `Unknown resource ${req.method} ${req.originalUrl}`)))
     .use((error, req, res, next) => {

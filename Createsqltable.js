@@ -4,7 +4,7 @@
     2.course table 
     3.moduletable 
     4.feedbacktable
-    
+    5. quiz table
 
 
 
@@ -53,6 +53,23 @@ create table feedbacktable (
     CONSTRAINT fk_userid FOREIGN KEY(userid) REFERENCES usertable(userid) ON DELETE CASCADE ON UPDATE CASCADE
 )
 
+CREATE TABLE quiztable (
+    quizid SERIAL primary key,
+    q1 VARCHAR not null,
+    q2 VARCHAR not null,
+    q3 VARCHAR not null,
+    q4 VARCHAR not null,
+    q5 VARCHAR not null,
+    q6 VARCHAR not null,
+    q7 VARCHAR not null,
+    q8 VARCHAR not null,
+    q9 VARCHAR not null,
+    q10 VARCHAR not null,
+    total_score INT not null,
+    userid INT not null,
+    CONSTRAINT fk_Userid FOREIGN KEY(userid) REFERENCES usertable(Userid) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 ALTER TABLE usertable
 DROP CONSTRAINT fk_Course_id;
 
@@ -62,11 +79,14 @@ DROP CONSTRAINT fk_Courseid;
 ALTER TABLE feedbacktable
 DROP CONSTRAINT fk_userid;
 
+ALTER TABLE quiztable
+DROP CONSTRAINT fk_userid;
+
 DROP TABLE IF EXISTS coursetable CASCADE;
 DROP TABLE IF EXISTS usertetable CASCADE;
 DROP TABLE IF EXISTS feedbaable CASCADE;
 DROP TABLE IF EXISTS moduletable CASCADE;
-
+DROP TABLE IF EXISTS quiztable CASCADE;
 
 
 
