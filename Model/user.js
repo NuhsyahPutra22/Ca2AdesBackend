@@ -90,8 +90,8 @@ module.exports.GetUserbyID = function get(userid) {
     });
 };
 //Add user
-module.exports.AddUser = function add(currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentUserRole,currentCourseid) {
-    return query(`Insert into ${user_table}(username,userpassword,useremail,useraddress,usercontactnumber,userrole,courseid) values ($1,$2,$3,$4,$5,$6,$7) RETURNING *`, [
+module.exports.AddUser = function add(currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentUserRole,currentCourseid,currentSemester) {
+    return query(`Insert into ${user_table}(username,userpassword,useremail,useraddress,usercontactnumber,userrole,courseid,semestername) values ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`, [
         currentUserName,
         currentUserPassword,
         currentUserEmail,
@@ -99,6 +99,7 @@ module.exports.AddUser = function add(currentUserName,currentUserPassword,curren
         currentUserContactNumber,
         currentUserRole,
         currentCourseid,
+        currentSemester
     ])
     .then((response) => response.rows[0].currentUserEmail)
     .catch((error) => {

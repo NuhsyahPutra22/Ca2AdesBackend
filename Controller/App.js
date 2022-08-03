@@ -108,11 +108,12 @@ module.exports = express()
         const currentUserContactNumber = req.body.usercontactnumber;
         const currentUserRole = req.body.userrole;
         const currentCourseid = req.body.courseid;
+        const currentSemester=req.body.semestername
         if (!currentUserEmail) {
             return next(createHttpError(400, "Please provide data"));
         }
-        return user.AddUser(currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber, currentUserRole,currentCourseid)
-            .then((currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber, currentUserRole,currentCourseid) => res.status(201).json({ currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber,currentUserRole, currentCourseid }))
+        return user.AddUser(currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber, currentUserRole,currentCourseid,currentSemester)
+            .then((currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber, currentUserRole,currentCourseid,currentSemester) => res.status(201).json({ currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber,currentUserRole, currentCourseid,currentSemester }))
             .catch(next);
 
     })
