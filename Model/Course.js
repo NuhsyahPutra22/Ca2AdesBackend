@@ -48,7 +48,20 @@ module.exports.GetCoursebyID = function get(courseid) {
     .then((result) => {
         if  (!result.rows.length) return null;
         console.log(result.rows);
-        return (result.rows);
+        const courselist = [];
+        for (let i = 0; i < result.rows.length; i++) {
+          const course = result.rows[i];
+          courselist.push({
+          
+            courseid:course.courseid,
+            coursecode:course.coursecode,
+            coursename:course.coursename,
+            courseabbrev:course.courseabbrev
+           
+          });
+        }
+        console.log(courselist)
+        return(courselist)
     });
 };
 // Add Course
