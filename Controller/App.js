@@ -100,7 +100,7 @@ module.exports = express()
     })
 
     //add user
-    .post('/user', function (req, res, next) {
+    .post('/user',verifytoken, function (req, res, next) {
         const currentUserName = req.body.username;
         const currentUserPassword = req.body.userpassword;
         const currentUserEmail = req.body.useremail;
@@ -108,11 +108,12 @@ module.exports = express()
         const currentUserContactNumber = req.body.usercontactnumber;
         const currentUserRole = req.body.userrole;
         const currentCourseid = req.body.courseid;
+        const currentSemester=req.body.semestername
         if (!currentUserEmail) {
             return next(createHttpError(400, "Please provide data"));
         }
-        return user.AddUser(currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber, currentUserRole,currentCourseid)
-            .then((currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber, currentUserRole,currentCourseid) => res.status(201).json({ currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber,currentUserRole, currentCourseid }))
+        return user.AddUser(currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber, currentUserRole,currentCourseid,currentSemester)
+            .then((currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber, currentUserRole,currentCourseid,currentSemester) => res.status(201).json({ currentUserName, currentUserPassword, currentUserEmail, currentUserAddress, currentUserContactNumber,currentUserRole, currentCourseid,currentSemester }))
             .catch(next);
 
     })
@@ -180,7 +181,10 @@ module.exports = express()
         return Course.GetCoursebyID(courseid)
             .then((result) => {
                 if (!result) return next(createHttpError(404, `Course Information ${result} not found`));
-                return res.json(result).end();
+                return   res.status(200).send({
+                    result
+                      
+                    });
             })
             .catch(next);
     })
@@ -296,6 +300,19 @@ module.exports = express()
             .then((result) => {
                 if (!result) return next(createHttpError(404, `Module Information ${result} not found`));
                 return res.json(result).end();
+            })
+            .catch(next);
+    })
+  //get module by userid
+    .get('/ModulebyUser/:userid', (req, res, next) => {
+        const userid = (req.params.userid)
+        return Module.GetModulebyUserID(userid)
+            .then((result) => {
+                if (!result) return next(createHttpError(404, `Module Information ${result} not found`));
+                return   res.status(200).send({
+                    result
+                      
+                    });
             })
             .catch(next);
     })

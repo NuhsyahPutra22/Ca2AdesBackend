@@ -37,7 +37,7 @@ module.exports.LoginUser=function get(username,userpassword){
 
 //get all user
   module.exports.GetAllUser = function get() {
-    return query(`SELECT a.userid, a.username,a.useremail,b.coursename,c.semestername from usertable a inner join coursetable b on b.courseid=a.courseid inner join moduletable c on c.courseid=a.courseid where userrole='Student';`,[])
+    return query(`SELECT a.userid, a.username,a.useremail,b.coursename,a.semestername from usertable a inner join coursetable b on b.courseid=a.courseid  where userrole='Student';`,[])
     .then((result) => {
         if  (!result.rows.length) return null;
         console.log(result.rows);
@@ -76,6 +76,7 @@ module.exports.GetUserbyID = function get(userid) {
             useremail:user.useremail,
             userpassword:user.userpassword,
             useraddress:user.useraddress,
+            semestername:user.semestername,
             usercontactnumber:user.usercontactnumber,
             courseid:user.courseid,
             coursecode:user.coursecode,
@@ -89,8 +90,8 @@ module.exports.GetUserbyID = function get(userid) {
     });
 };
 //Add user
-module.exports.AddUser = function add(currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentUserRole,currentCourseid) {
-    return query(`Insert into ${user_table}(username,userpassword,useremail,useraddress,usercontactnumber,userrole,courseid) values ($1,$2,$3,$4,$5,$6,$7) RETURNING *`, [
+module.exports.AddUser = function add(currentUserName,currentUserPassword,currentUserEmail,currentUserAddress,currentUserContactNumber,currentUserRole,currentCourseid,currentSemester) {
+    return query(`Insert into ${user_table}(username,userpassword,useremail,useraddress,usercontactnumber,userrole,courseid,semestername) values ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`, [
         currentUserName,
         currentUserPassword,
         currentUserEmail,
@@ -98,6 +99,7 @@ module.exports.AddUser = function add(currentUserName,currentUserPassword,curren
         currentUserContactNumber,
         currentUserRole,
         currentCourseid,
+        currentSemester
     ])
     .then((response) => response.rows[0].currentUserEmail)
     .catch((error) => {
