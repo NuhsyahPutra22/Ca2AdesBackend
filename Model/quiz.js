@@ -44,7 +44,8 @@ module.exports.GetAllAttempts = function get() {
             q8:quiz.q8,
             q9:quiz.q9,
             q10:quiz.q10,
-            total_score:quizlist.total_score,
+            total_score:quiz.total_score,
+            userid:quiz.userid
            
           });
         }
@@ -55,7 +56,7 @@ module.exports.GetAllAttempts = function get() {
 
 //Get all Quiz Attempts by userid
 module.exports.GetAllAttempts = function get() {
-    return query(`SELECT * FROM ${quiz_table} WHERE Userid=$1`,[Userid])
+    return query(`SELECT * FROM ${quiz_table} WHERE userid=$1`,[userid])
     .then((result) => {
         if  (!result.rows.length) return null;
         const quizlist = [];
@@ -74,6 +75,7 @@ module.exports.GetAllAttempts = function get() {
             q9:quiz.q9,
             q10:quiz.q10,
             total_score:quiz.total_score,
+            userid:quiz.userid
            
           });
         }
@@ -91,18 +93,16 @@ module.exports.DeleteAttemptByID= function get(quizid) {
 
 };
 
+
 // create quiz attempt
-// Add Module
-module.exports.CreateAttempt = function add(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, total_score) {
-    return query(`INSERT INTO ${module_table}(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, total_score) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) 
-    RETURNING *`, 
-    [
-        q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, total_score   
-    ])
-        .then((response) => response.rows[0])
+module.exports.CreateAttempt = function add(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, total_score, userid) {
+    return query(`INSERT INTO ${quiz_table} (q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, total_score, userid) 
+    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *`, 
+    [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, total_score, userid ])
+        .then((response) => response.rows[0].userid)
         .catch((error) => {
             if (error.code === POSTGRES_ERROR_CODE.UNIQUE_CONSTRAINT) {
-                throw createHttpError(400, `QuizID ${quizid} already exists`);
+                throw createHttpError(400, `Quiz ID ${userid} already exists`);
             } else throw error; // unexpected error
         });
 };
