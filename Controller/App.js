@@ -100,7 +100,7 @@ module.exports = express()
     })
 
     //add user
-    .post('/user', function (req, res, next) {
+    .post('/user',verifytoken, function (req, res, next) {
         const currentUserName = req.body.username;
         const currentUserPassword = req.body.userpassword;
         const currentUserEmail = req.body.useremail;
