@@ -102,3 +102,21 @@ module.exports.GetCourseidbyCoursename=function GetCourseidbyCoursename(currentC
         return result.rows;
     });
 };
+
+//To get coursename 
+module.exports.GetCoursename=function GetCoursename() {
+    return query(`SELECT courseid,coursename From ${course_table}`)
+	.then((result) => {
+        if (!result.rows) return null;
+        return result.rows;
+    });
+};
+    //To get coursename from courseid
+module.exports.GetCoursenamebycourseid=function GetCoursenamenamebycourseid(courseid) {
+    return query(`SELECT courseid,coursename From ${course_table} where courseid=$1` ,[courseid])
+	.then((result) => {
+        if (!result.rows) return null;
+        return result.rows;
+    });
+
+};

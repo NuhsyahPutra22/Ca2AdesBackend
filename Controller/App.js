@@ -243,6 +243,26 @@ module.exports = express()
             })
             .catch(next);
     })
+    .get('/GetCourseName', (req, res, next) => {
+        return Course.GetCoursename()
+            .then((result) => {
+                if (!result) return next(createHttpError(404, ` Coursename ${result} not found`));
+                console.log(result);
+                return res.json(result).end;
+            })
+            .catch(next);
+    })
+    //Get courseName by courseid
+    .get('/CourseName/:courseid', (req, res, next) => {
+        const courseid = (req.params.courseid)
+        return Course.GetCoursenamebycourseid(courseid)
+            .then((result) => {
+                if (!result) return next(createHttpError(404, `Course Information ${result} not found`));
+                return res.json(result).end();
+            })
+            .catch(next);
+    })
+
     //Endpoint for Module 
     //Get alll moduleinfo
     .get('/Module', (req, res, next) => {

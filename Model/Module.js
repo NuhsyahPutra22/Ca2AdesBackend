@@ -20,23 +20,25 @@ module.exports.Module_table_sql = Module_table_sql;
 
 //Get all Module
 module.exports.GetAllModule = function get() {
-    return query(`SELECT * FROM ${module_table}`,[])
-    .then((result) => {
+    return query(`SELECT m.*,c.coursename FROM ${module_table} m inner join coursetable c on c.courseid=m.courseid`,[])
+.then((result) => {
         if  (!result.rows.length) return null;
+        console.log(result.rows);
         const modulelist = [];
         for (let i = 0; i < result.rows.length; i++) {
           const module = result.rows[i];
           modulelist.push({
           
-
+            moduleid:module.moduleid,
             modulecode:module.modulecode,
             modulename:module.modulename,
-            moduledetail:module.moduledetail
-           
+            moduledetail:module.moduledetail,
+           courseid:module.coursename,
+           semestername:module.semestername
           });
         }
         console.log(modulelist)
-        return(modulelist)
+        return(modulelist);
     });
 };
 
