@@ -457,7 +457,7 @@ module.exports = express()
     })
 
     // delete quiz attempt for user by quizid (admin)
-    .delete('/Quiz/quizid', (req, res, next) => {
+    .delete('/Quiz/:quizid', (req, res, next) => {
         const quizid = parseInt(req.params.quizid);
         console.log(quizid);
         return Quiz.DeleteAttemptByID(quizid)
