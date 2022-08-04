@@ -456,6 +456,20 @@ module.exports = express()
             .catch(next);
     })
 
+    // get all quiz attempts by quizid
+    .get('/Quizbyquizid/:quizid', (req, res, next) => {
+        const quizid = (req.params.quizid);
+        return Quiz.GetAttemptsbyQuizID(quizid)
+            .then((result) => {
+                if (!result) return next(createHttpError(404, `Quiz attempt ${result} not found`));
+                return res.status(200).send({
+                    result
+                      
+                    });
+            })
+            .catch(next);
+    })
+
     // delete quiz attempt for user by quizid (admin)
     .delete('/Quiz/:quizid', (req, res, next) => {
         const quizid = parseInt(req.params.quizid);
@@ -467,13 +481,13 @@ module.exports = express()
 
     // create a quiz attempt
     .post('/Quiz', function (req, res, next) {
-        const {q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, total_score, userid} = req.body;
+        const {q1, q2, q3, q4, q5, q6, q7, total_score, userid} = req.body;
         if (!userid) {
             return next(createHttpError(400, "Please provide data"));
         }
-        return Quiz.CreateAttempt(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, total_score, userid)
-            .then((q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, total_score, userid) => 
-            res.status(201).json({ q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, total_score,userid }))
+        return Quiz.CreateAttempt(q1, q2, q3, q4, q5, q6, q7, total_score, userid)
+            .then((q1, q2, q3, q4, q5, q6, q7, total_score, userid) => 
+            res.status(201).json({ q1, q2, q3, q4, q5, q6, q7, total_score,userid }))
             .catch(next);
 
     })

@@ -14,9 +14,6 @@ const Quiz_table_sql = `
         q5 VARCHAR not null,
         q6 VARCHAR not null,
         q7 VARCHAR not null,
-        q8 VARCHAR not null,
-        q9 VARCHAR not null,
-        q10 VARCHAR not null,
         total_score INT not null,
         userid INT not null,
         CONSTRAINT fk_Userid FOREIGN KEY(userid) REFERENCES usertable(Userid) ON DELETE CASCADE ON UPDATE CASCADE
@@ -41,9 +38,6 @@ module.exports.GetAllAttempts = function get() {
             q5:quiz.q5,
             q6:quiz.q6,
             q7:quiz.q7,
-            q8:quiz.q8,
-            q9:quiz.q9,
-            q10:quiz.q10,
             total_score:quiz.total_score,
             userid:quiz.userid
            
@@ -71,9 +65,33 @@ module.exports.GetAttemptsbyID = function get(userid) {
             q5:quiz.q5,
             q6:quiz.q6,
             q7:quiz.q7,
-            q8:quiz.q8,
-            q9:quiz.q9,
-            q10:quiz.q10,
+            total_score:quiz.total_score,
+            userid:quiz.userid
+           
+          });
+        }
+        console.log(quizlist);
+        return(quizlist);
+    });
+};
+
+//Get all Quiz Attempts by quizid
+module.exports.GetAttemptsbyQuizID = function get(quizid) {
+    return query(`SELECT * FROM ${quiz_table} WHERE quizid=$1`,[quizid])
+    .then((result) => {
+        if  (!result.rows.length) return null;
+        const quizlist = [];
+        for (let i = 0; i < result.rows.length; i++) {
+          const quiz = result.rows[i];
+          quizlist.push({
+            quizid:quiz.quizid,
+            q1:quiz.q1,
+            q2:quiz.q2,
+            q3:quiz.q3,
+            q4:quiz.q4,
+            q5:quiz.q5,
+            q6:quiz.q6,
+            q7:quiz.q7,
             total_score:quiz.total_score,
             userid:quiz.userid
            
@@ -95,10 +113,10 @@ module.exports.DeleteAttemptByID= function get(quizid) {
 
 
 // create quiz attempt
-module.exports.CreateAttempt = function add(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, total_score, userid) {
-    return query(`INSERT INTO ${quiz_table} (q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, total_score, userid) 
-    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *`, 
-    [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, total_score, userid ])
+module.exports.CreateAttempt = function add(q1, q2, q3, q4, q5, q6, q7, total_score, userid) {
+    return query(`INSERT INTO ${quiz_table} (q1, q2, q3, q4, q5, q6, q7, total_score, userid) 
+    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`, 
+    [q1, q2, q3, q4, q5, q6, q7, total_score, userid ])
         .then((response) => response.rows[0].userid)
         .catch((error) => {
             if (error.code === POSTGRES_ERROR_CODE.UNIQUE_CONSTRAINT) {
