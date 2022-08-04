@@ -75,9 +75,10 @@ module.exports.GetModulebyID = function get(moduleid) {
           const module = result.rows[i];
           modulelist.push({
           
-
+            moduleid:module.moduleid,
             modulecode:module.modulecode,
             modulename:module.modulename,
+            moduledetail:module.moduledetail
             
            
           });
@@ -113,8 +114,8 @@ module.exports.AddModule = function add(currentModulecode, currentModuleName,cur
         });
 };
 //To update the all the Moduletable info
-module.exports.UpdateModuleinfo=function add(moduleid,currentModulecode, currentModuleName,currentModuledetail,currentCourseid,currentSemesterName) {
-    return query(`UPDATE ${module_table} SET modulecode = $2,modulename = $3,moduledetail = $4,courseid = $5,semestername = $6 where moduleid = $1  RETURNING *` , [moduleid,currentModulecode, currentModuleName,currentModuledetail,currentCourseid,currentSemesterName])
+module.exports.UpdateModuleinfo=function add(moduleid,currentModulecode, currentModuleName,currentModuledetail) {
+    return query(`UPDATE ${module_table} SET modulecode = $2,modulename = $3,moduledetail = $4 where moduleid = $1  RETURNING *` , [moduleid,currentModulecode, currentModuleName,currentModuledetail])
     .then((result) => {
         if  (!result.rows.length) return null;
         console.log(result.rows);

@@ -300,7 +300,10 @@ module.exports = express()
         return Module.GetModulebyID(moduleid)
             .then((result) => {
                 if (!result) return next(createHttpError(404, `Module Information ${result} not found`));
-                return res.json(result).end();
+                return res.status(200).send({
+                    result
+                      
+                    });
             })
             .catch(next);
     })
@@ -338,11 +341,10 @@ module.exports = express()
         const currentModulecode = req.body.modulecode;
         const currentModuleName = req.body.modulename;
         const currentModuledetail = req.body.moduledetail;
-        const currentCourseid = req.body.courseid;
-        const currentSemesterName = req.body.semestername;
+        
 
-        console.log(moduleid, currentModulecode, currentModuleName, currentModuledetail, currentCourseid, currentSemesterName);
-        return Module.UpdateModuleinfo(moduleid, currentModulecode, currentModuleName, currentModuledetail, currentCourseid, currentSemesterName)
+        console.log(moduleid, currentModulecode, currentModuleName, currentModuledetail);
+        return Module.UpdateModuleinfo(moduleid, currentModulecode, currentModuleName, currentModuledetail)
             .then((result) => {
                 if (!result) return next(createHttpError(404, ` moduleinfo ${result} not successfully updated`));
                 console.log(result.rows);
