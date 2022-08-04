@@ -443,8 +443,8 @@ module.exports = express()
     })
 
     // get all quiz attempts by userid
-    .get('/Quiz/:Userid', (req, res, next) => {
-        const userid = (req.params.Userid);
+    .get('/Quizbyuserid/:userid', (req, res, next) => {
+        const userid = (req.params.userid);
         return Quiz.GetAttemptsbyID(userid)
             .then((result) => {
                 if (!result) return next(createHttpError(404, `Quiz attempt ${result} not found`));

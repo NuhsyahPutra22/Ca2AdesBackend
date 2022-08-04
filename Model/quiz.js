@@ -33,7 +33,7 @@ module.exports.GetAllAttempts = function get() {
         for (let i = 0; i < result.rows.length; i++) {
           const quiz = result.rows[i];
           quizlist.push({
-          
+            quizid:quiz.quizid,
             q1:quiz.q1,
             q2:quiz.q2,
             q3:quiz.q3,
@@ -55,7 +55,7 @@ module.exports.GetAllAttempts = function get() {
 };
 
 //Get all Quiz Attempts by userid
-module.exports.GetAllAttempts = function get() {
+module.exports.GetAttemptsbyID = function get(userid) {
     return query(`SELECT * FROM ${quiz_table} WHERE userid=$1`,[userid])
     .then((result) => {
         if  (!result.rows.length) return null;
@@ -63,7 +63,7 @@ module.exports.GetAllAttempts = function get() {
         for (let i = 0; i < result.rows.length; i++) {
           const quiz = result.rows[i];
           quizlist.push({
-          
+            quizid:quiz.quizid,
             q1:quiz.q1,
             q2:quiz.q2,
             q3:quiz.q3,
