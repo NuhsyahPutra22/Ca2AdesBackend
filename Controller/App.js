@@ -481,12 +481,12 @@ module.exports = express()
 
     // create a quiz attempt
     .post('/Quiz', function (req, res, next) {
-        const {q1, q2, q3, q4, q5, q6, q7, total_score, userid} = req.body;
-        if (!userid) {
+        const {q1, q2, q3, q4, q5, q6, q7, total_score,userid} = req.body;
+        if (!q1) {
             return next(createHttpError(400, "Please provide data"));
         }
         return Quiz.CreateAttempt(q1, q2, q3, q4, q5, q6, q7, total_score, userid)
-            .then((q1, q2, q3, q4, q5, q6, q7, total_score, userid) => 
+            .then((q1, q2, q3, q4, q5, q6, q7, total_score,userid) => 
             res.status(201).json({ q1, q2, q3, q4, q5, q6, q7, total_score,userid }))
             .catch(next);
 

@@ -117,7 +117,7 @@ module.exports.CreateAttempt = function add(q1, q2, q3, q4, q5, q6, q7, total_sc
     return query(`INSERT INTO ${quiz_table} (q1, q2, q3, q4, q5, q6, q7, total_score, userid) 
     VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`, 
     [q1, q2, q3, q4, q5, q6, q7, total_score, userid ])
-        .then((response) => response.rows[0].userid)
+        .then((response) => response.rows[0].quizid)
         .catch((error) => {
             if (error.code === POSTGRES_ERROR_CODE.UNIQUE_CONSTRAINT) {
                 throw createHttpError(400, `Quiz ID ${userid} already exists`);
