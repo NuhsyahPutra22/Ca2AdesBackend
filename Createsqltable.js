@@ -62,7 +62,6 @@ CREATE TABLE quiztable (
     q5 VARCHAR not null,
     q6 VARCHAR not null,
     q7 VARCHAR not null,
-    total_score INT not null,
     userid INT not null,
     CONSTRAINT fk_Userid FOREIGN KEY(userid) REFERENCES usertable(Userid) ON DELETE CASCADE ON UPDATE CASCADE
 );
