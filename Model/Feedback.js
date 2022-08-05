@@ -63,11 +63,17 @@ module.exports.MakeFeedback = function add(currentfeedbacktitle,currentfeedbackc
         });
 };
 //To delete feedback by userid
-
 module.exports.DeleteFeedbackinfo= function get(currentuserid,currentfeedbackid) {
     return query(`DELETE FROM ${feedback_table} where userid= $1 and feedbackid=$2`,[currentuserid,currentfeedbackid]).then((result) => {
         if (!result.rows.length) return null;
         return result;
     });
+};
 
+//To delete feedback by feedbackid
+module.exports.DeleteFeedbackAny= function get(currentfeedbackid) {
+    return query(`DELETE FROM ${feedback_table} where feedbackid=$1`,[currentfeedbackid]).then((result) => {
+        if (!result.rows.length) return null;
+        return result;
+    });
 };

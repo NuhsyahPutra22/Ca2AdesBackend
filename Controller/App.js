@@ -428,6 +428,16 @@ module.exports = express()
             .catch(next);
     })
 
+    //delete by feedbackid
+    .delete('/Feedback/:feedbackid', (req, res, next) => {
+        // const currentuserid= parseInt(req.params.userid);
+        const currentfeedbackid= req.params.feedbackid;
+        console.log(currentfeedbackid);
+        return Feedback.DeleteFeedbackAny(currentfeedbackid)
+            .then((result) => res.status(200).send("Successfully deleted Feedback").end())
+            .catch(next);
+    })
+
     // endpoints for quiz table
     // get all quiz attempts
     .get('/Quiz', (req, res, next) => {
