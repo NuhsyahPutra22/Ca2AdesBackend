@@ -190,7 +190,7 @@ module.exports = express()
             .catch(next);
     })
     //Add Course
-    .post('/Course',verifytoken, function (req, res, next) {
+    .post('/Course', function (req, res, next) {
         const currentCoursecode = req.body.coursecode;
         const currentCourseName = req.body.coursename;
         const currentCourseabbrev = req.body.courseabbrev;
@@ -203,7 +203,7 @@ module.exports = express()
 
     })
     //Update a Course information
-    .put('/Course/:courseid', verifytoken,(req, res, next) => {
+    .put('/Course/:courseid',(req, res, next) => {
         const courseid = parseInt(req.params.courseid);
         const currentCoursecode = req.body.coursecode;
         const currentCourseName = req.body.coursename;
@@ -219,7 +219,7 @@ module.exports = express()
             .catch(next);
     })
     //To delete Courseinfo by id 
-    .delete('/Course/:courseid',verifytoken, (req, res, next) => {
+    .delete('/Course/:courseid', (req, res, next) => {
         const courseid = parseInt(req.params.courseid);
         console.log(courseid);
         return Course.DeleteCourseinfo(courseid)
